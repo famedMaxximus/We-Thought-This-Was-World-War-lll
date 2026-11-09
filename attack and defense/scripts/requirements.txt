@@ -1,0 +1,5 @@
+# A&D python tooling deps. Install OFFLINE before the venue:
+#   pip install -r requirements.txt
+requests>=2.31
+# pcap_steal.py prefers the `tshark` binary (apt install tshark / wireshark).
+# service_monitor.py, flag_proxy.py, exploit_runner.py use only the stdlib + requests.
