@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.seen_flags
+.monitor_state.json
+*.pcap
+*.pcap.gz
+targets.txt
