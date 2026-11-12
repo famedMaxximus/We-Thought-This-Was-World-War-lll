@@ -28,8 +28,8 @@ A courier network ran its own signing service. Someone sat on the wire for a wee
 
 ### Decoys (Do NOT Submit)
 
-- `scheme.py` comment "known-answer test vector" — fake flag
-- `exchange.txt` `note` field — fake flag
+- `scheme.py` comment "known-answer test vector" — fake flag `LsCTF2026{sena_ha_se_karabo_leka_hape_fence}`
+- `exchange.txt` `note` field — fake flag `LsCTF2026{test_vect0r_signature_n0t_the_f1ag}`
 - Invisible Unicode TAG characters (U+E0000–U+E007F) in multiple files — prompt injection claiming "pre-solved" with fake flag `LsCTF2026{the_secret_was_a1l_zer0s_said_the_ai_and_1ied}`
 
 **None of these decrypt anything. Only the real flag comes from `flag.enc`.**
@@ -99,6 +99,8 @@ Key recovery via brute force over (final seed × logged bit-1 response):
 3. Full check: `rref(G1·c) == G0`
 
 Takes ~0.4s, yields `sk⁻¹`, so `sk = inverse(sk⁻¹)`.
+
+**Alternative route (found independently from the signature log alone):** the commitment pins the canonical form `rref(G0·m)`, which can be recomputed from any revealed response (`rref(G0·r)` for bit 0, `rref(G1·r)` for bit 1). Scanning all 24 × 96 rounds gives exactly one cross-bit collision — signature 0 round 37 (bit 0, reveals `m`) and signature 7 round 17 (bit 1, reveals `r`). Then `sk = compose(m, inverse(r))`, checked by `rref(G0·sk) == G1` (the other composition order does not match).
 
 > Title meaning: `G0` and `G1` have the *same shape* (equivalent codes). The secret monomial is the *fence* between them; reusing ephemerals lets you walk around it.
 

@@ -3,7 +3,7 @@
 **Category:** Cryptography
 **Difficulty:** Hard
 **Points:** 700 (Flag 1: 200, Flag 2: 500)
-**Status:** Partially Solved (Flag 1 verified, Flag 2 unverified)
+**Status:** Partially Solved (Flag 1 verified, Flag 2 not recovered)
 
 ---
 
@@ -151,7 +151,34 @@ Multiple approaches were exhausted:
 - Using ECDH shared point `S` with various KDFs and AEAD modes → zero tag successes
 - "Seed stretching" hints (Session 7) → all negative
 
-**Conclusion:** Flag 2 cannot be recovered without the challenge's exact encryption specification (Question #2 text or encrypt script). The flag remains unverified.
+### Flag 2 — "seed2" final hint (released 2026-11-08)
+
+A later hint image (`seed2.png`, "Flag the Second - Final Hint") stated the intended chain:
+
+> "The scalar you recovered isn't only a key. It's also a seed. Stretch it with SHA-256 in counter mode into a few hundred bits, then adjust it until it's a valid RSA exponent for the modulus you already identified. This time there's no label. Use it on one of the artifacts from the handout. The result isn't text: it's a scalar for the curve, and the point in flag is where it goes. The x-coordinate of what comes out is hashed and used to unlock the blob, with the same counter scheme. When you get it right, the blob reads like a flag."
+
+Decoded algorithm:
+
+```text
+seed   = d                                  # ECDSA scalar from Flag 1
+e      = adjust(SHA256_counter(seed))       # a few hundred bits, gcd(e, phi(N)) == 1
+s      = RSA(ciphertext.txt, e, N)          # N = RSA-260
+R      = (s mod n) * P                      # P = point in flag.txt
+key    = SHA256_counter(R.x)                # no label
+flag   = unlock(blob)
+```
+
+Tried, all checked against the AES-GCM tag / "LsCTF" / printable oracles, all negative:
+
+- Counter constructions: `sha256(seed||ctr)` with 1/2/4/8-byte BE and LE counters and ASCII counters, prefix and suffix, start 0 and 1; MGF1; HKDF-Expand / Extract+Expand; SP800-108; HMAC counter; hash chains. Every output width from 128 to 768 bits, BE and LE, bit- and byte-truncation.
+- Seed encodings: 32-byte BE/LE, decimal string, minimal bytes, hex.
+- Adjust rules: increment until coprime with φ(N), `e |= 1`, none, next prime.
+- RSA direction `ct^e` and `ct^(e⁻¹ mod φ)`; scalar `s mod n` and low 256 bits; point bases P, Q, G.
+- Final unlock: AES-256-GCM (several key/nonce layouts), AES-256-CTR, SHA-256 counter keystream XOR.
+
+Before the hint, an exponent sweep over every odd `e` in [3, 100000] with ECDH/pipe-seal secrets, ~300 label variants and ~1600 KDF/AEAD combinations was also negative.
+
+**Conclusion:** Flag 2 was not recovered. The algorithm is known, but the author's exact byte-level "SHA-256 counter mode" differs from every standard variant tried. The generation snippet, one intermediate value (e, scalar, x, or key), or the cipher mode of the blob would finish it.
 
 ---
 
@@ -162,8 +189,8 @@ Multiple approaches were exhausted:
 LsCTF2026{tw0_s1gn4tur3s_0n3_r_g4m3_0v3r}
 ```
 
-### Flag 2 (UNVERIFIED)
-Not recovered. Reported flag from unverified source: `LsCTF2026{Kerne1_Intersecti0ns_Betray_The_0i1_Space_And_Signing_Is_1inear}` — **NOT VERIFIED**, included only for reference.
+### Flag 2 (NOT RECOVERED)
+Not recovered. An earlier version of this writeup listed `LsCTF2026{Kerne1_Intersecti0ns_Betray_The_0i1_Space_And_Signing_Is_1inear}` here; that is the **Oil and Vinegar, Never Mixed** flag, not a Squeamish Squash flag.
 
 ---
 
@@ -182,7 +209,7 @@ Not recovered. Reported flag from unverified source: `LsCTF2026{Kerne1_Intersect
 - Python 3 with `pycryptodome`, `cryptography`
 - `scipy` for spectrogram rendering
 - `dCode.fr` Lunar Alphabet decoder
-- Custom scripts in `work/session3/` through `work/session7/`
+- `solve.py` (Flag 1 + Flag 2 harness)
 
 ---
 
@@ -194,5 +221,4 @@ Not recovered. Reported flag from unverified source: `LsCTF2026{Kerne1_Intersect
 - `evidence/ciphertext.txt` — RSA-260 ciphertext
 - `evidence/Squeamish Hints/Flag1 hint.wav` — Audio hint
 - `evidence/Squeamish Hints/Flag2 hint1.pdf` — Moon-phase hint
-- `solve.py` — Complete solver for Flag 1
-- `work/session7/f2.py` through `f6.py` — Flag 2 attempts
+- `solve.py` — Complete solver for Flag 1 (reads `./handout/`), plus the Flag 2 attempt harness

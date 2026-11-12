@@ -1,15 +1,16 @@
-# Vault Description: Attachment Included
+# Attachment Included
 
-**Category:** Cryptography / Digital Forensics
+**Category:** Cryptography / Digital Forensics (SMTP / email)
 **Difficulty:** Intermediate
 **Points:** 300
 **Status:** Solved (Verified)
+**Flag:** `LsCTF2026{ch3ck_th3_attachm3nt}` ✅ VERIFIED
 
 ---
 
 ## 1. Challenge Overview
 
-An insider emailed "figures" to a personal Gmail over plain SMTP. The body of the message is small talk. The attachment is the actual leak. Recover the contents of the attachment.
+An insider emailed "figures" to a personal Gmail over plain SMTP. The body of the message is small talk. The attachment is the actual leak. Follow the SMTP session, extract the attachment, and decode it.
 
 ---
 
@@ -17,7 +18,12 @@ An insider emailed "figures" to a personal Gmail over plain SMTP. The body of th
 
 ### Handout (`attachment-included_capture.zip` → `attachment-included_capture.pcap`)
 
-PCAP capture of an SMTP session.
+```
+$ tshark -r attachment-included_capture.pcap -q -z io,phs
+... smtp (13 frames) ... imf (1 frame) ...
+```
+
+Plain **SMTP** (port 25, cleartext). One mail session carries the leak.
 
 ### Objectives
 
@@ -29,23 +35,47 @@ PCAP capture of an SMTP session.
 
 ## 3. Investigation and Methodology
 
-### SMTP Session Analysis
+### Follow the SMTP session
 
-Open `attachment-included_capture.pcap` in Wireshark. Follow the TCP stream (port 25).
+```
+$ tshark -r attachment-included_capture.pcap -Y smtp -T fields -e tcp.stream   # -> stream 16
+$ tshark -r attachment-included_capture.pcap -q -z follow,tcp,ascii,16
+```
 
-The email contains:
-- Plain text body (small talk)
-- An attachment (the leak)
+The session (sender `10.5.9.23` → mail server `196.30.20.9:25`):
 
-### Attachment Extraction
+```
+EHLO wks-fin-07
+MAIL FROM:<t.mokoena@maluti.co.ls>
+RCPT TO:<personal.backup@gmail.com>
+DATA
+From: t.mokoena@maluti.co.ls
+To: personal.backup@gmail.com
+Subject: figures
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==_Maluti_7731_=="
 
-1. In Wireshark: File → Export Objects → SMTP
-2. Save the attachment
-3. The attachment is base64-encoded (standard email encoding)
+--==_Maluti_7731_==
+Content-Type: text/plain
 
-### Decoding
+As promised. Everything is in the attached file.          <-- small talk
 
-Decode the base64 attachment to recover the plaintext leak.
+--==_Maluti_7731_==
+Content-Type: text/plain; name="codes.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="codes.txt"
+
+WVdOalpYTnpJR052WkdVNklFeHpRMVJHTWpBeU5udGphRE5qYTE5MGFETmZZWFIwWVdOb2JU
+TnVkSDA9
+
+--==_Maluti_7731_==--
+.
+QUIT
+```
+
+A `multipart/mixed` MIME message: the body is harmless small talk, and the payload is the base64 attachment `codes.txt`.
+
+In Wireshark the same attachment can be saved via **File → Export Objects → IMF**.
 
 ---
 
@@ -53,36 +83,29 @@ Decode the base64 attachment to recover the plaintext leak.
 
 | Component | Flaw |
 |-----------|------|
-| SMTP | Plaintext (no TLS) — credentials and content visible on wire |
-| Email attachment | Base64 encoding only (no encryption) |
+| SMTP | Plaintext (no TLS): headers, body and attachments visible on the wire |
+| Email attachment | MIME base64 transport encoding, then a second base64 layer; no encryption |
 
 ---
 
 ## 5. Exploitation / Solution
 
-```bash
-# 1. Open PCAP in Wireshark
-wireshark attachment-included_capture.pcap
+The attachment is MIME base64 (`Content-Transfer-Encoding: base64`). Decoding it once yields **another** base64 string, which decodes to the plaintext:
 
-# 2. Follow TCP stream (port 25) → see email with attachment
-# 3. Export Objects → SMTP → save attachment
-# 4. Decode base64
-base64 -d attachment.b64 > attachment.txt
-cat attachment.txt
+```
+$ echo 'WVdOalpYTnpJR052WkdVNklFeHpRMVJHTWpBeU5udGphRE5qYTE5MGFETmZZWFIwWVdOb2JUTnVkSDA9' | base64 -d
+YWNjZXNzIGNvZGU6IExzQ1RGMjAyNntjaDNja190aDNfYXR0YWNobTNudH0=
+
+$ echo 'YWNjZXNzIGNvZGU6IExzQ1RGMjAyNntjaDNja190aDNfYXR0YWNobTNudH0=' | base64 -d
+access code: LsCTF2026{ch3ck_th3_attachm3nt}
 ```
 
-Or programmatically:
-```python
-import email, base64
+`solve.py` reassembles the client side of the SMTP stream, parses it with Python's `email` module and decodes both layers:
 
-with open('attachment-included_capture.pcap', 'rb') as f:
-    # Parse PCAP, extract SMTP payload
-    # Simplified: use scapy or manual extraction
-    msg = email.message_from_bytes(smtp_data)
-    for part in msg.walk():
-        if part.get_content_disposition() == 'attachment':
-            payload = part.get_payload(decode=True)  # auto base64 decode
-            print(payload.decode())
+```
+$ python3 solve.py attachment-included_capture.pcap
+[*] codes.txt -> YWNjZXNzIGNvZGU6IExzQ1RGMjAyNntjaDNja190aDNfYXR0YWNobTNudH0=
+access code: LsCTF2026{ch3ck_th3_attachm3nt}
 ```
 
 ---
@@ -92,29 +115,28 @@ with open('attachment-included_capture.pcap', 'rb') as f:
 ```
 LsCTF2026{ch3ck_th3_attachm3nt}
 ```
-(Verified by successful attachment extraction and decoding)
+(Verified: `solve.py` reproduces it from the original pcap)
 
 ---
 
 ## 7. Lessons Learned
 
-1. **Plain SMTP is fully visible** — No encryption means anyone on the network path sees everything.
-2. **Attachments are just encoded** — Base64 is encoding, not encryption. `decode=True` in Python's `email` module handles it automatically.
-3. **Wireshark SMTP object export** — Built-in feature makes attachment extraction trivial.
-4. **Insider threat via email** — Data exfiltration over standard protocols leaves clear forensic traces.
+1. **SMTP without TLS sends everything in the clear.** Anyone capturing the session reads the attachment.
+2. **MIME base64 is a transport encoding, not encryption.** Here it took two decodes.
+3. **The innocuous body is misdirection.** The leak was in the file.
+4. **Defences:** enforce STARTTLS / submission over TLS, and use DLP to flag attachments leaving for personal webmail.
 
 ---
 
 ## 8. Tools Used
 
-- Wireshark (PCAP analysis, SMTP object export)
-- Python 3: `email`, `base64` (programmatic extraction)
-- `base64 -d` (command line)
+- Wireshark / `tshark` (SMTP stream follow, IMF export)
+- `base64 -d`
+- Python 3: `email`, `base64`, `subprocess`
 
 ---
 
 ## 9. Evidence and References
 
-- `evidence/attachment-included_capture.pcap` — SMTP capture
-- `evidence/attachment.b64` — Extracted base64 attachment
-- `evidence/attachment.txt` — Decoded plaintext
+- `solve.py` — Extracts the SMTP message from the pcap and decodes the attachment
+- `evidence/README.md` — Original handout file list and recovered attachment

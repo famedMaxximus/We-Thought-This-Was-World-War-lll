@@ -161,10 +161,7 @@ Points
 
 | Vector | Est. Points | Effort | Target |
 |--------|-------------|--------|--------|
-| Pwn Master Levels 2,3,6,7 | ~400 | High | Pre-finals grind |
-| RE: jump, Quiz, sed | ~300 | Medium | Tool automation |
 | ICS/OT: Operation Quthing | ~200 | Medium | Firmware deep-dive |
-| Web 10-module vault | ~500 | High | Scripting framework |
 | **Total Available** | **~1,400+** | — | **OVERSHOOT TARGET** |
 
 > **Confidence Level:** HIGH — We have the firepower. Execution is the only variable.
@@ -207,9 +204,8 @@ Points
 ## 🔗 RELATED RESOURCES
 
 - **Writeups Repository:** [Lesotho-CTF-Writeups](../README.md)
-- **Flag Index:** [FLAG_INDEX.md](../FLAG_INDEX.md) — 37 verified flags
-- **Categories:** [CATEGORIES.md](../CATEGORIES.md) — 44 challenges mapped
-- **QA Report:** [QA_REPORT.md](../QA_REPORT.md) — Validation passed
+- **Flag Index:** [FLAG_INDEX.md](../FLAG_INDEX.md) — 46 verified flags
+- **Categories:** [CATEGORIES.md](../CATEGORIES.md) — 39 challenges mapped
 
 ---
 

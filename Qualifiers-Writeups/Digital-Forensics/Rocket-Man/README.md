@@ -3,7 +3,7 @@
 **Category:** Digital Forensics / Mobile Forensics
 **Difficulty:** Hard
 **Points:** 2250
-**Status:** Solved (Module 1: Wh097 The Rocket Scientist — 15 questions completed)
+**Status:** Solved (Module 1: Wh097 The Rocket Scientist — 7 questions answered)
 
 ---
 
@@ -23,49 +23,68 @@ All flags use the format: `LsCTF2026{}`. All times in Lesotho time.
 
 ### Modules
 
-1. **Wh097 The Rocket Scientist** (30 min, Completed) — 15 questions, 50–300 pts each
+1. **Wh097 The Rocket Scientist** (30 min, Completed) — 7 questions, 100–300 pts each (1200 pts)
 2. **Homecoming** (4 hrs) — Separate module (iPhone 8, see Homecoming writeup)
 
 ---
 
-## 3. Module 1: Wh097 The Rocket Scientist — Solved
+## 3. Investigation and Methodology — Module 1: Wh097 The Rocket Scientist
 
-### Flags Recovered (VERIFIED)
+### Questions and Answers (Pixel 3, Android 10, full file-system extraction)
 
-| Q# | Points | Question | Flag / Answer |
-|----|--------|----------|---------------|
-| 1 | 50 | First 8 chars of SHA-256 of homecoming_iphone8.zip | *Not in this module* |
-| 2 | 100 | Phone number from SIM | *Recovered from telephony.db* |
-| 3 | 100 | Wi-Fi network joined during setup | *Recovered from WifiConfigStore.xml* |
-| 4 | 100 | Time in Lesotho when first joined Wi-Fi (HH:MM) | *Converted from UTC in WifiConfigStore.xml* |
-| 5 | 100 | Phone number with most messages (+) | *Recovered from mmssms.db* |
-| 6 | 300 | Deleted message GUID | *Recovered from mmssms.db (deleted=1)* |
-| 7 | 100 | Number of locked notes | *Recovered from notes.db (locked=1)* |
-| 8 | 300 | Locked notes password | *Cracked via brute force / known password list* |
-| 9 | 200 | Steps on 19 May 2023 (EDT) | *Recovered from Google Fit / health data* |
-| 10 | 150 | CarPlay system name | *Recovered from com.apple.CarPlay.plist or Bluetooth pairing records* |
-| 11 | 150 | Calendar event 31 May 2023 location | *Recovered from Calendar.sqlitedb* |
-| 12 | 150 | Photo album created 20 May 2023 | *Recovered from Photos.sqlite / DCIM metadata* |
-| 13 | 150 | PDF filename in iCloud Drive Documents | *Recovered from FileProvider / iCloud Drive metadata* |
-| 14 | 100 | Repeating alarm time (HH:MM) | *Recovered from AlarmClock.db or system alarms* |
-| 15 | 200 | App with most calls (besides Phone) | *Recovered from calllog.db* |
+All times converted to Lesotho time (SAST, UTC+2).
 
-### Specific Flags from Evidence
+| Q# | Points | Question | Answer | Source |
+|----|--------|----------|--------|--------|
+| 1 | 100 | Mother's SMS from Maseru | `LsCTF2026{machencha}` | `mmssms.db`, `sms` `_id` 26 |
+| 2 | 100 | "Rocket scientist" brag to a friend | `LsCTF2026{king_helmet}` | `mmssms.db`, `sms` `_id` 27 |
+| 3 | 200 | Mother's call start time | 2020-02-12 19:32:00 | `calllog.db`, `calls` `_id` 15 |
+| 4 | 150 | Flight search destination | Ibiza | Chrome `History` |
+| 5 | 150 | Unusual website visited after the search | `LsCTF2026{guns-for-sale}` | Chrome `History` |
+| 6 | 200 | Decoded "random text" download | `LsCTF2026{howdoyoufeel}` | `Download/rocket_plans.txt` |
+| 7 | 300 | Real full name (hidden second user) | Luka Mafereka | `data/system/users/11.xml` |
 
-| Source | Flag |
-|--------|------|
-| Mother's SMS from Maseru (mmssms.db sms id 26) | `LsCTF2026{machencha}` |
-| "Rocket scientist" SMS to friend (mmssms.db sms id 27) | `LsCTF2026{king_helmet}` |
-| Site visited after Ibiza flight search (Chrome History) | `LsCTF2026{guns-for-sale}` |
-| Decoded Download/rocket_plans.txt (Base64) | `LsCTF2026{howdoyoufeel}` |
+> An earlier version of this table listed 15 iPhone-style questions (CarPlay, iCloud Drive, locked notes, …). Those belong to the **Homecoming** (iPhone 8) module, not to this Pixel 3 module, and have been removed here.
 
-### Other Key Answers
+For the non-flag answers, alternative formats prepared in case plain text was rejected: `LsCTF2026{19:32:00}` / `LsCTF2026{19:32}` / `LsCTF2026{2020-02-12 19:32:00}`, `LsCTF2026{ibiza}`, `LsCTF2026{Luka_Mafereka}`.
 
-| Question | Answer |
-|----------|--------|
-| Flight search destination | Ibiza |
-| Real full name (hidden user 11) | Luka Mafereka |
-| Mother's call start (calllog.db \_id 15) | 2020-02-12 19:32:00 Lesotho time (UTC+2) |
+### Detailed Findings
+
+**Q1** — `Pixel 3/data/data/com.android.providers.telephony/databases/mmssms.db`, sms `_id` 26, from +26659123456 (Lesotho), 2020-02-02 07:15:00:
+> "Lumela Luka ngoan'aka. Re u hopotse haholo mona Maseru. U se ke ua lebala ho letsetsa nkhono ka Sontaha. LsCTF2026{machencha}"
+> ("Hello Luka my child. We miss you very much here in Maseru. Don't forget to call grandma on Sunday.")
+
+**Q2** — same DB, sms `_id` 27 (type 2 = sent) to +26662070479 ("Thabo Molapo"), 2020-02-11 04:40:00:
+> "Ke rocket scientist ka ho pata lintho. Nobody will ever find the second profile. LsCTF2026{king_helmet}"
+
+WhatsApp (`msgstore.db`) and Google Messages (`bugle_db`) had no matches for "rocket" or "LsCTF".
+
+**Q3** — `com.android.providers.contacts/databases/calllog.db`, `calls` `_id` 15, number +26659123456, name "Mme" (Sesotho for "Mother"). `date` 1581528720000 ms = 2020-02-12 17:32:00 UTC = **19:32:00 Lesotho time**. Duration 312 s, type 1 (incoming).
+
+**Q4** — `com.android.chrome/app_chrome/Default/History`, 2020-02-12 05:05:00:
+`https://www.google.com/search?q=cheap+flights+raleigh+to+ibiza`. Raleigh, NC is where Wh097 was studying.
+
+**Q5** — same History, 2020-02-12 05:09:00: `https://wh097-notes.ls/rocket`, page title `LsCTF2026{guns-for-sale}`.
+
+**Q6** — `Pixel 3/data/media/0/Download/rocket_plans.txt` (117 bytes), Base64:
+```
+VGhhYm8sIGlmIHlvdSBhcmUgcmVhZGluZyB0aGlzLCB5b3UgYXJlIG5vdCBhIHJvY2tldCBzY2llbnRpc3QuIExzQ1RGMjAyNntob3dkb3lvdWZlZWx9
+→ "Thabo, if you are reading this, you are not a rocket scientist. LsCTF2026{howdoyoufeel}"
+```
+
+**Q7** — `Pixel 3/data/system/users/11.xml`: `<name>Luka Mafereka</name>`, created 2020-02-14 03:39:18, last login 14:50:01 (Lesotho time). Google account on user 11: `wh097.hidden2@gmail.com` (`data/system_de/11/accounts_de.db`). The main user 0 is named "This Is". The mother's SMS greeting "Luka" and the "second profile" brag agree.
+
+### Method notes
+
+- The zip holds 76,404 files (~9 GB uncompressed); list with `unzip -l` and extract only what is needed.
+- Timestamps: Android ms epoch `datetime(date/1000,'unixepoch','+2 hours')`; Chrome WebKit `datetime(t/1000000-11644473600,'unixepoch','+2 hours')`.
+- Paths under `sbin/.magisk/mirror/...` duplicate `/data` (the phone was rooted with Magisk); the `/data` paths were used.
+
+### Other artifacts noted
+
+- Calls with Thabo on 2020-02-14 (03:29, 03:30, 15:05, 16:41); missed calls from +332629243087, +19195121037 (North Carolina), +15755863247 (Questa, NM).
+- Sign-up SMS for LINE, Telegram, Signal, imo, Skout, WhatsApp, Microsoft, TikTok, Facebook ("ThisIs"), Imgur, Dust, Wickr Me, Wire.
+- Installed: `com.thinkyeah.galleryvault` (hidden-photo vault), Silent Phone, TextNow, Kik, Viber, Skype, MeWe, Messenger.
 
 ---
 
@@ -88,7 +107,6 @@ The core vulnerability is the **lack of encryption and access controls** on the 
 - Queried `sms` table for message bodies and metadata
 - SMS id 26: Mother's message from Maseru containing flag `LsCTF2026{machencha}`
 - SMS id 27: Outgoing message to friend "Rocket scientist" containing flag `LsCTF2026{king_helmet}`
-- Analyzed `address` and `date` fields for phone numbers and timestamps
 
 ### 5.2 Chrome History Analysis
 
@@ -111,7 +129,7 @@ The core vulnerability is the **lack of encryption and access controls** on the 
 
 ### 5.5 Contact / User Analysis
 
-- Hidden user (user 11) identified as Luka Mafereka via `contacts2.db` and account metadata
+- Hidden user (user 11) identified as Luka Mafereka via `data/system/users/11.xml` and `system_de/11/accounts_de.db`
 
 ### 5.6 Tools Used
 

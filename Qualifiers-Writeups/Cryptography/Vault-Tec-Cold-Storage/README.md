@@ -3,7 +3,7 @@
 **Category:** Cryptography
 **Difficulty:** Hard
 **Points:** Unknown
-**Status:** Partially Solved (Flag 2 verified, Flag 1 unverified)
+**Status:** Partially Solved (Flag 2 verified, Flag 1 not recovered)
 
 ---
 
@@ -84,11 +84,24 @@ Server's application-data record authenticates at sequence number 1. Its plainte
 
 ### Reproduce (Flag 2)
 
+`enc_pms.bin` is the 128-byte RSA ciphertext from the ClientKeyExchange record in `tls_session.bin`.
+
 ```bash
-python3 solve.py --challenge vault_partial
+python3 scripts/solve_rsa.py <handout>/coldmem.dmp   # Coppersmith -> writes p.txt, q.txt
+python3 scripts/solve_tls.py <handout>               # needs enc_pms.bin, tls_session.bin
 ```
 
-Does: prime recovery via Coppersmith/LLL → RSA key derivation → TLS 1.2 PRF → AES-GCM decryption of server application data.
+Output (reproduced from the original handout):
+
+```
+RECOVERED low=240 m=16: p=0xdbaae389cf2f68b5...fa7f17efda05089be5b247b3
+p*q==n: True p prime True q prime True
+RSA decrypt head: 0002fa
+premaster (48 bytes): 03032cd562af5972...
+DECRYPTED server seq=1: b'VAULT-TEC RESPONSE // OVERSEER CHANNEL // LsCTF2026{st4t1c_rsa_k3y_3xch4ng3_h4s_n0_f0rw4rd_s3cr3cy}\n'
+```
+
+The known high bytes of `p` sit at dump offset `0x1e0dc` (34 bytes) inside the `VTKEYC01` record at `0x1e041`; `n` is the 128 bytes at record offset +24. Of the four `VTKEYC01` records, only this one holds a valid (odd, 1024-bit) modulus; the other three "moduli" are even and appear to be decoys.
 
 **Does not claim to decrypt `flag1.enc`.**
 
@@ -101,8 +114,19 @@ Does: prime recovery via Coppersmith/LLL → RSA key derivation → TLS 1.2 PRF 
 LsCTF2026{st4t1c_rsa_k3y_3xch4ng3_h4s_n0_f0rw4rd_s3cr3cy}
 ```
 
-### Flag 1 (UNVERIFIED)
-Not recovered. The writeup explicitly covers Flag 2 only.
+### Flag 1 (NOT RECOVERED)
+
+`flag1.enc` (249 bytes, high entropy) was not decrypted. Ruled out, with all material available (RSA `p,q,d,n`, premaster, master secret, TLS key block):
+
+- AES-GCM / AES-CTR / ChaCha20(-Poly1305) with every 16/24/32-byte window of the memory dump as key
+- Fernet (249 = 57 + 192 fits, but the version byte is `0xec`, not `0x80`)
+- RSA hybrid (OAEP: zero hits; `flag1[:128] >= n`), textbook RSA on every `< n` window
+- XOR against every 249-byte memory window; repeating-key XOR (data looks random)
+- Derived keys (master, premaster, client/server write keys, `p`, `q`, `d`, `n`; raw and SHA/MD5/SHA1/SHA512) × GCM/CTR/CBC/ChaCha
+- TLS exporter PRF with ~19 guessed labels; extended key-expansion slices; `flag1` as a TLS-GCM record with seq 0..63
+- `VTSESS01` / `VTLOGC01` blobs as keys
+
+Untried ideas at the time work stopped: GCM with an 8-byte prepended nonce or non-empty AAD; ChaCha20 with a 12-byte IETF nonce; a second TLS session behind the second `VTSESS01` blob.
 
 ---
 
@@ -117,15 +141,15 @@ Not recovered. The writeup explicitly covers Flag 2 only.
 
 ## 8. Tools Used
 
-- Python 3: `pycryptodome`, `fpylll` (LLL), `cysignals`
-- `volatility` or custom carving for `VTKEYC01` records
+- Python 3: `fpylll` (LLL), `sympy`, `cryptography` (AES-GCM)
+- Custom carving of `VTKEYC01` records (fixed offsets in `coldmem.dmp`)
 - TLS 1.2 PRF implementation (RFC 5246)
 
 ---
 
 ## 9. Evidence and References
 
-- `evidence/Vault-Tec Cold Storage handout.zip` — Original handout
-- `evidence/VTKEYC01_record.bin` — Carved key record
-- `solve.py` — Complete solver for Flag 2
-- `results/prime_recovery.log` — LLL output showing recovered factor
+- `scripts/cs2.py` — Coppersmith (known MSBs of a factor) lattice
+- `scripts/solve_rsa.py` — carves `n` and the partial prime from `coldmem.dmp`, recovers `p`, `q`
+- `scripts/solve_tls.py` — RSA-decrypts the premaster, TLS 1.2 PRF, AES-128-GCM decrypt of the app-data record
+- `evidence/README.md` — handout file list

@@ -87,8 +87,6 @@ nav:
   - Scoreboard: SCOREBOARD.md
   - Flags: FLAG_INDEX.md
   - Categories: CATEGORIES.md
-  - QA Report: QA_REPORT.md
-  - Finals Strategy: FINALS_STRATEGY.md
   - Cryptography:
       - Overview: Cryptography/README.md
       - Squeamish Squash: Cryptography/Squeamish-Squash/README.md
@@ -111,7 +109,6 @@ nav:
       - Vault-Tec Cold Storage: Cryptography/Vault-Tec-Cold-Storage/README.md
       - Verification Service: Cryptography/Verification-Service/README.md
       - Oil and Vinegar Never Mixed: Cryptography/Oil-and-Vinegar-Never-Mixed/README.md
-      - Rick's Portal Auth System: Cryptography/Ricks-Portal-Auth-System/README.md
       - Ndigiwa: Cryptography/Ndigiwa/README.md
       - Namunya Sacco: Cryptography/Namunya-Sacco/README.md
       - Just Passw0rd: Cryptography/just_Passw0rd/README.md
@@ -125,29 +122,23 @@ nav:
       - Attachment Included: Cryptography/Attachment-Included/README.md
   - Binary Exploitation:
       - Overview: Binary-Exploitation/README.md
-      - Pwn Master Level 1: Binary-Exploitation/Pwn-Master-Level-1/README.md
-      - Pwn Master Level 2: Binary-Exploitation/Pwn-Master-Level-2/README.md
-      - Pwn Master Level 3: Binary-Exploitation/Pwn-Master-Level-3/README.md
       - Pwn Master Level 4: Binary-Exploitation/Pwn-Master-Level-4/README.md
       - Pwn Master Level 5: Binary-Exploitation/Pwn-Master-Level-5/README.md
-      - Pwn Master Level 6: Binary-Exploitation/Pwn-Master-Level-6/README.md
-      - Pwn Master Level 7: Binary-Exploitation/Pwn-Master-Level-7/README.md
   - Reverse Engineering:
       - Overview: Reverse-Engineering/README.md
       - wintls: Reverse-Engineering/wintls/README.md
-      - Quiz: Reverse-Engineering/Quiz/README.md
-      - jump: Reverse-Engineering/jump/README.md
-      - sed programming: Reverse-Engineering/sed-programming/README.md
   - Digital Forensics:
       - Overview: Digital-Forensics/README.md
       - The Smuggled Archive: Digital-Forensics/The-Smuggled-Archive/README.md
-      - Say Cheese: Digital-Forensics/Say-Cheese/README.md
-      - Phone Home: Digital-Forensics/Phone-Home/README.md
+      - Chatty DNS: Digital-Forensics/Chatty-DNS/README.md
+      - Museum Piece: Digital-Forensics/Museum-Piece/README.md
+      - Old Habits: Digital-Forensics/Old-Habits/README.md
+      - One Ping at a Time: Digital-Forensics/One-Ping-at-a-Time/README.md
+      - The Rushed Login: Digital-Forensics/The-Rushed-Login/README.md
+      - Who's the Gateway: Digital-Forensics/Whos-the-Gateway/README.md
       - Rocket Man: Digital-Forensics/Rocket-Man/README.md
-      - Homecoming: Digital-Forensics/Homecoming/README.md
   - Web Exploitation:
       - Overview: Web-Exploitation/README.md
-      - Web Exploitation Vault: Web-Exploitation/Web-Exploitation/README.md
       - Ndigiwa: Web-Exploitation/Ndigiwa/README.md
       - Detention for the Curious: Web-Exploitation/Detention-for-the-Curious/README.md
   - Web3:
@@ -159,8 +150,6 @@ nav:
       - Scoreboard Monitor: scripts/utils/scoreboard_monitor.py
       - Flag Submitter: scripts/utils/flag_submitter.py
       - Validation: scripts/validate_repo.py
-  - Finals Strategy: FINALS_STRATEGY.md
-  - QA Report: QA_REPORT.md
   - Contributing: CONTRIBUTING.md
   - License: LICENSE
 

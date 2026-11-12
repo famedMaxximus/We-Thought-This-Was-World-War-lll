@@ -10,8 +10,8 @@
 ![Team](https://img.shields.io/badge/Team-We_Thought_This_Was_World_War-ff006e?style=for-the-badge&logo=github&logoColor=ff006e)
 ![Rank](https://img.shields.io/badge/Qualifiers-2ND_PLACE-ffd700?style=for-the-badge&logo=trophy&logoColor=ffd700)
 ![Finals](https://img.shields.io/badge/Finals_2026--11--16-TARGET_1ST-ff006e?style=for-the-badge&logo=target&logoColor=ff006e)
-![Challenges](https://img.shields.io/badge/Challenges-44-00ffff?style=for-the-badge&logo=hackthebox&logoColor=00ffff)
-![Flags](https://img.shields.io/badge/Verified_Flags-37-00ff41?style=for-the-badge&logo=flag&logoColor=00ff41)
+![Challenges](https://img.shields.io/badge/Challenges-39-00ffff?style=for-the-badge&logo=hackthebox&logoColor=00ffff)
+![Flags](https://img.shields.io/badge/Verified_Flags-46-00ff41?style=for-the-badge&logo=flag&logoColor=00ff41)
 ![Status](https://img.shields.io/badge/Status-QUALIFIED_FOR_FINALS-ff006e?style=for-the-badge&logo=gitbook&logoColor=ff006e)
 
 ---
@@ -42,7 +42,7 @@
 
 ## 🎯 REPOSITORY PURPOSE
 
-This repository contains **professional, technically accurate writeups** for challenges from the **Lesotho 2026 Cyber Security Hackathon (LsCTF)**. It documents the complete solving process for **44 challenges** across **10+ cybersecurity categories**, with **37 verified flags** recovered.
+This repository contains **professional, technically accurate writeups** for challenges from the **Lesotho 2026 Cyber Security Hackathon (LsCTF)**. It documents the complete solving process for the **39 challenges** we solved (or partially solved) across **7 categories**, with **46 verified flags** recovered. Unsolved challenges are not included.
 
 **Solved by Team:** `We Thought This Was World War`  
 **Qualification Result:** 🥈 **2ND PLACE** → **Finals Qualified**  
@@ -80,16 +80,16 @@ The goal is to provide a high-quality, educational resource for the cybersecurit
 
 | Category | Challenges | Solved | Verified Flags | Status |
 |----------|------------|--------|----------------|--------|
-| [Cryptography](./Cryptography) | 27 | 20 | 27 | 🔥 Dominating |
-| [Binary Exploitation](./Binary-Exploitation) | 7 | 3 | 4 | 💪 Strong |
-| [Reverse Engineering](./Reverse-Engineering) | 4 | 1 | 1 | 🧠 Building |
-| [Digital Forensics](./Digital-Forensics) | 5 | 1 | 4 | 🔍 Pixel 3 ✅ |
-| [Web Exploitation](./Web-Exploitation) | 3 | 2 | 3 | 🌐 Solid |
+| [Cryptography](./Cryptography) | 26 | 24 | 29 | 🔥 Dominating |
+| [Binary Exploitation](./Binary-Exploitation) | 2 | 2 | 2 | 💪 Strong |
+| [Reverse Engineering](./Reverse-Engineering) | 1 | 1 | 1 | 🧠 Building |
+| [Digital Forensics](./Digital-Forensics) | 8 | 8 | 11 | 🔍 Network + Pixel 3 ✅ |
+| [Web Exploitation](./Web-Exploitation) | 2* | 2* | — | 🌐 Solid |
 | [Web3 / Blockchain](./Web3) | 1 | 1 | 1 | ⛓️ Complete |
 | [ICS / OT Security](./ICS-OT-Security) | 1 | 0 | 2 | ⚙️ Partial |
-| **TOTAL** | **44** | **27** | **37** | **🥈 2ND PLACE** |
+| **TOTAL** | **39** | **36** | **46** | **🥈 2ND PLACE** |
 
-> *Note: Some challenges span multiple categories; primary category shown.*
+> *Note: Some challenges span multiple categories; primary category shown. \*Ndigiwa and Detention for the Curious are counted under Cryptography.*
 
 ---
 
@@ -97,13 +97,10 @@ The goal is to provide a high-quality, educational resource for the cybersecurit
 
 | Metric | Count |
 |--------|-------|
-| Total Challenges Discovered | 44 |
-| Challenges with Verified Flags | 27 |
-| **Total Verified Flags** | **37** |
-| Total Unverified Flags | 7 |
-| Partially Solved Challenges | 7 |
-| Local-Only Flags | 1 |
-| Unsolved Challenges | 11 |
+| Challenges in this repo (solved or partial) | 39 |
+| Fully Solved Challenges | 36 |
+| **Total Verified Flags** | **46** |
+| Partially Solved Challenges | 3 (Squeamish Squash, Vault-Tec Cold Storage, Operation Quthing Storm) |
 
 ---
 
@@ -142,7 +139,7 @@ The goal is to provide a high-quality, educational resource for the cybersecurit
 
 ## 🚩 FLAG INDEX
 
-See [FLAG_INDEX.md](./FLAG_INDEX.md) for a complete catalog of all **37 verified flags** with verification status.
+See [FLAG_INDEX.md](./FLAG_INDEX.md) for a complete catalog of all **46 verified flags** with verification status.
 
 ---
 
@@ -163,38 +160,35 @@ See [CATEGORIES.md](./CATEGORIES.md) for detailed challenge categorization and c
 ```
 Lesotho-CTF-Writeups/
 ├── README.md                 # This file
-├── FLAG_INDEX.md             # Master flag catalog (37 flags)
+├── FLAG_INDEX.md             # Master flag catalog (46 flags)
 ├── CATEGORIES.md             # Challenge categorization
 ├── CONTRIBUTING.md           # Contribution guidelines
 ├── LICENSE                   # MIT License
 ├── .gitignore                # Git ignore rules
-├── QA_REPORT.md              # Quality assurance report
 ├── validate_repo.py          # Validation script
 │
-├── Cryptography/             # 27 challenges
+├── Cryptography/             # 26 challenges
 │   ├── Squeamish-Squash/
 │   ├── Macrodata-Refinement/
-│   └── ... (25 more)
+│   └── ... (24 more)
 │
-├── Binary-Exploitation/      # 7 challenges (Pwn Master vault)
-│   ├── Pwn-Master-Level-1/
+├── Binary-Exploitation/      # 2 challenges (Pwn Master levels 4 & 5)
 │   └── ...
 │
-├── Reverse-Engineering/      # 4 challenges
-│   ├── wintls/
-│   ├── Quiz/
-│   ├── jump/
-│   └── sed-programming/
+├── Reverse-Engineering/      # 1 challenge
+│   └── wintls/
 │
-├── Digital-Forensics/        # 5 challenges
+├── Digital-Forensics/        # 8 challenges
+│   ├── Chatty-DNS/
+│   ├── Museum-Piece/
+│   ├── Old-Habits/
+│   ├── One-Ping-at-a-Time/
+│   ├── The-Rushed-Login/
 │   ├── The-Smuggled-Archive/
-│   ├── Say-Cheese/
-│   ├── Phone-Home/
-│   ├── Rocket-Man/           # ← Pixel 3 ✅ 4 flags
-│   └── Homecoming/
+│   ├── Whos-the-Gateway/
+│   └── Rocket-Man/           # ← Pixel 3 ✅ 4 flags
 │
-├── Web-Exploitation/         # 3 challenges
-│   ├── Web-Exploitation/
+├── Web-Exploitation/         # 2 challenges
 │   ├── Ndigiwa/
 │   └── Detention-for-the-Curious/
 │
