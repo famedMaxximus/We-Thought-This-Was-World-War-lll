@@ -1,2172 +1,1173 @@
-# MASTER BUILD PROMPT
+# ☠ WE THOUGHT THIS WAS WORLD WAR 3
+## MASTER BUILD PROMPT — ATTACK & DEFENCE CYBER OPERATIONS PLATFORM
+
+You are Claude Code acting as a senior cybersecurity engineer, full-stack developer, systems architect, defensive security specialist, automation engineer, UI/UX designer, and technical project lead.
+
+Your task is to inspect the existing project and build a complete, reliable, competition-ready Attack & Defence CTF operations platform.
+
+This is not a basic dashboard, a collection of scripts, or a visual prototype. It must become a persistent, modular, automated cyber operations command centre that can operate independently of Claude Code.
+
+**THE OFFICIAL PROJECT NAME MUST ALWAYS BE EXACTLY:**
+
 # We THOUGHT THIS WAS WORLD WAR 3
-## Advanced Attack & Defence CTF Command, Control, Automation and Intelligence Framework
+
+Do not rename it. Do not change its capitalization. Do not replace the number 3 with Roman numerals. Preserve this exact wording everywhere: dashboard, terminal, documentation, startup screens, banners, reports, and application metadata.
+
+**Official visual tagline:**
+
+SEE EVERYTHING. PROTECT EVERYTHING. MISS NOTHING. ☠
 
 ---
 
-# 0. YOUR ROLE AND MISSION
+# 1. FIRST: INSPECT THE EXISTING PROJECT
 
-You are the lead software architect, senior Python engineer, cybersecurity engineer, DevSecOps engineer, UI/UX designer, network security engineer, and autonomous CTF operations engineer responsible for building a complete Attack & Defence CTF command-and-control framework.
+Before changing anything:
 
-The official project name is:
+1. Inspect the complete project directory.
+2. Read the existing `CLAUDE.md` and all project documentation.
+3. Inspect every existing Python script, configuration file, frontend component, Docker file, test, and deployment script.
+4. Identify existing functionality that can be retained.
+5. Identify incomplete, duplicated, broken, unsafe, or misleading functionality.
+6. Produce an implementation plan.
+7. Preserve useful existing work.
+8. Do not blindly overwrite files.
+9. Do not invent competition API endpoints, credentials, target addresses, or scoring rules.
+10. Record assumptions and unresolved requirements.
 
-# We THOUGHT THIS WAS WORLD WAR 3
+Where the existing specification conflicts with this prompt, follow the safer, more explicit requirement in this prompt. Preserve the original competition requirements wherever they are compatible.
 
-This is the exact project name. Preserve the capitalization and wording everywhere:
-
-- Source code and project metadata.
-- Terminal banners.
-- Web dashboard.
-- Startup animations.
-- Documentation.
-- Reports.
-- Logs and generated files.
-- Honeypot interface.
-- Installation screens.
-- System notifications.
-
-Never rename it to "World War III", "WORLD WAR 3", or another variation.
-
-The mission is to build a complete, highly automated Attack & Defence competition framework that operates from ONE central machine and coordinates the team's competition operations.
-
-The framework must be developed in two major phases:
-
-**PHASE 0 — BUILD AND VERIFY**
-
-Build the entire framework, implement its components, configure the environment, test every module, and verify that all safety controls work before competition operations begin.
-
-**PHASE 1 — OPERATE**
-
-After Phase 0 passes, operate continuously throughout the competition until I explicitly say `STOP`, `GAME OVER`, or the competition scoreboard is finalized.
-
-Do not start competition operations while Phase 0 is incomplete.
-
-## 0.1 Core objectives
-
-The framework must:
-
-1. Keep our assigned services running and healthy.
-2. Continuously monitor our team's machines.
-3. Identify service failures and security weaknesses in our own infrastructure.
-4. Monitor authorized competition targets.
-5. Perform permitted Attack & Defence reconnaissance and vulnerability validation.
-6. Capture genuine flags through competition-authorized mechanisms.
-7. Automatically validate and submit captured flags through the official submission API.
-8. Track submissions and rejected flags.
-9. Monitor network activity and detect attacks against our infrastructure.
-10. Operate a controlled honeypot on infrastructure assigned to our team.
-11. Record attacker activity and extract useful defensive intelligence.
-12. Display all important activity in a live web dashboard.
-13. Provide a powerful terminal command centre.
-14. Maintain a reliable event ledger and complete audit history.
-15. Continue running independently of the Claude Code session.
-16. Notify me when human intervention is genuinely necessary.
-
-The primary operational priorities are:
-
-1. Keep our services up.
-2. Submit every legitimate captured flag as quickly as possible.
-3. Maintain complete visibility of our infrastructure.
-4. Detect and respond to attacks.
-5. Avoid unnecessary operations that could affect competition availability or violate the rules.
-
-Everything must be measurable, logged, testable, and observable.
+Create a project audit report before major modifications.
 
 ---
 
-# 1. ARCHITECTURE
+# 2. THE MISSION
 
-Build a centralized architecture.
+Build a central Attack & Defence framework that can:
 
-There is ONE central control machine running the framework.
+- Monitor explicitly authorized competition infrastructure.
+- Identify service health and availability problems.
+- Perform competition-approved, scope-limited reconnaissance.
+- Run approved vulnerability checks against assigned targets.
+- Support authorized exploitation of intentionally vulnerable competition services, within the published rules and configured scope.
+- Detect and respond to suspicious activity on our own infrastructure.
+- Monitor our own services continuously.
+- Collect and validate genuine flags.
+- Submit flags through the official competition API.
+- Track confirmed submission results.
+- Maintain a complete event and incident history.
+- Provide an AI-assisted intelligence and decision-support layer.
+- Provide a powerful web dashboard.
+- Provide a professional terminal command centre.
+- Operate continuously until the competition ends or an authorized operator stops it.
 
-The central machine communicates with:
+The framework must support four human team members working together in the same competition room.
 
-- Our assigned team machines.
-- Our assigned competition services.
-- Authorized opponent machines within the competition scope.
-- Our honeypot infrastructure.
-- The official scoreboard and flag submission API.
-- The competition VPN.
+It must not require Claude Code to remain open. The operational daemon must run independently.
 
-The central machine must provide two primary interfaces:
-
-**A. Web Command Centre**
-
-A real-time browser-based dashboard for monitoring, operating, and investigating the competition.
-
-**B. Terminal Command Centre**
-
-A powerful CLI for controlling the framework, inspecting events, reviewing findings, managing submissions, and operating the system.
-
-Both interfaces must use the same backend, database, event system, and operational state.
-
-## 1.1 Recommended technology stack
-
-Use the following unless a demonstrable technical reason requires a change:
-
-Backend:
-- Python 3.11+
-- FastAPI
-- Pydantic
-- SQLAlchemy
-- WebSockets
-- AsyncIO
-
-Frontend:
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Recharts or an equivalent visualization library
-- Framer Motion for controlled animations
-
-Database:
-- SQLite initially, with a clean PostgreSQL migration path.
-- SQLAlchemy models.
-- Transaction-safe event processing.
-
-Infrastructure:
-- Docker and Docker Compose.
-- systemd or an equivalent process supervisor.
-- Redis only if justified by actual concurrency requirements.
-- Structured JSON logging.
-
-Security and monitoring integrations, where available:
-- Nmap.
-- Zeek.
-- Suricata.
-- tshark.
-- auditd.
-- Wazuh.
-- Linux service health checks.
-- Docker health checks.
-
-Do not assume every tool is installed. Detect dependencies and provide clear installation instructions.
-
-## 1.2 Architecture requirements
-
-Implement the following independent modules:
-
-```text
-core/
-    orchestrator.py
-    scheduler.py
-    lifecycle.py
-    configuration.py
-    scope_manager.py
-    safety_engine.py
-    event_bus.py
-    process_manager.py
-
-attack/
-    reconnaissance.py
-    service_discovery.py
-    vulnerability_assessment.py
-    authorized_validation.py
-    flag_discovery.py
-    target_inventory.py
-    evidence_manager.py
-
-defence/
-    service_monitor.py
-    host_monitor.py
-    network_monitor.py
-    integrity_monitor.py
-    process_monitor.py
-    login_monitor.py
-    incident_detector.py
-    response_engine.py
-    recovery_engine.py
-
-intelligence/
-    network_topology.py
-    opponent_inventory.py
-    service_fingerprinting.py
-    attack_timeline.py
-    threat_analysis.py
-    intelligence_correlator.py
-
-flags/
-    flag_detector.py
-    flag_validator.py
-    submission_client.py
-    submission_queue.py
-    retry_manager.py
-    submission_tracker.py
-
-honeypot/
-    honeypot_manager.py
-    fake_sshd.py
-    fake_services.py
-    echo_chamber.py
-    canary_manager.py
-    activity_logger.py
-    deception_dashboard.py
-
-dashboard/
-    backend/
-    frontend/
-
-terminal/
-    cli.py
-    commands.py
-    terminal_dashboard.py
-    banner.py
-
-database/
-    models.py
-    connection.py
-    migrations/
-    repository.py
-
-notifications/
-    alert_manager.py
-    escalation_manager.py
-
-tools/
-    verify_kit.py
-    emergency_cleanup.py
-    health_check.py
-    backup.py
-
-tests/
-    unit/
-    integration/
-    security/
-    simulation/
-
-assets/
-    banners/
-    icons/
-    animations/
-
-config/
-    config.example.yaml
-    logging.yaml
-    policies.yaml
-
-logs/
-reports/
-patches/
-exploits/
-```
-
-You may improve this structure as the project develops, but maintain clear separation of responsibilities.
-
-Do not put the entire application into one Python file.
+**The primary objective is to maximize legitimate competition performance while keeping our infrastructure alive, compliant, observable, and recoverable.**
 
 ---
 
-# 2. RULES OF ENGAGEMENT AND SAFETY ENGINE
+# 3. COMPETITION SCOPE AND SAFETY ENGINE
 
-This section is mandatory.
+This is a mandatory component, not an optional feature.
 
-Every operation must follow the official competition rules and the scope I provide.
+Create a central scope and authorization engine.
 
-## 2.1 Competition scope
+Required inputs:
 
-The file:
+- `competition_scope.txt`
+- Official competition rules.
+- Authorized target IP addresses and CIDRs.
+- Authorized service and port ranges.
+- Competition VPN configuration.
+- Official flag-submission API documentation.
+- Permitted testing techniques.
+- Prohibited actions.
+- Competition start and end times.
 
-`competition_scope.txt`
+Use Python's `ipaddress` library for IP and CIDR validation.
 
-will contain the IP addresses and CIDR ranges explicitly authorized for competition operations.
+Before any network operation:
 
-Use Python's `ipaddress` library to parse and validate IPs and CIDRs.
+1. Confirm the destination is explicitly in scope.
+2. Confirm the operation is allowed by the competition configuration.
+3. Confirm rate limits and concurrency limits.
+4. Record the operation in the audit log.
+5. Refuse operations against unknown or out-of-scope systems.
 
-Do not use simple substring matching or grep as the security boundary.
+Never assume that being connected to the same competition network authorizes access to every machine.
 
-Before every network operation:
+Do not implement:
 
-1. Identify the destination.
-2. Resolve the destination if applicable.
-3. Validate it against the authorized scope.
-4. Verify the operation is allowed by the competition policy.
-5. Apply rate limits.
-6. Record the decision.
-7. Execute only if all checks pass.
+- Unauthorized access to other teams' computers.
+- Remote defacement or terminal injection.
+- Unauthorized shell access or persistence.
+- Credential theft or password harvesting.
+- DDoS or intentional service disruption.
+- Malware deployment.
+- Unauthorized data extraction.
+- Personal information collection.
+- Unauthorized modification of another team's services.
+- Commands that write to other teams' terminals, desktops, or TTY sessions.
 
-The scope manager must distinguish:
-
-- Our own assigned infrastructure.
-- Authorized opponent competition targets.
-- Competition VPN infrastructure.
-- Official scoreboard and submission endpoints.
-- Organizer infrastructure.
-- Unknown or unauthorized destinations.
-
-The scoreboard and submission endpoint may only be contacted for their documented competition functions.
-
-Never attack organizer infrastructure or scoreboard infrastructure.
-
-Never use a network target simply because it is reachable.
-
-## 2.2 Mandatory restrictions
-
-The framework must NEVER:
-
-- Attack machines outside the explicitly authorized competition scope.
-- Disable security controls, sandboxing, hooks, or policy enforcement.
-- Modify remote SSH authentication configuration.
-- Modify remote password databases or PAM configuration.
-- Delete or corrupt remote service binaries.
-- Execute destructive operations.
-- Perform denial-of-service attacks.
-- Use uncontrolled network flooding.
-- Establish unauthorized persistence.
-- Steal credentials or collect real passwords.
-- Inject content into active terminal sessions.
-- Use `wall`, `write`, or `/dev/pts/*` against other machines.
-- Deface other teams' websites.
-- Plant calling cards on opponents' machines.
-- Modify another team's SSH login environment.
-- Manipulate another team's service availability.
-- Impersonate another team.
-- Exfiltrate personal information.
-- Run arbitrary commands obtained from a remote machine.
-- Treat an obtained shell as unrestricted permission.
-
-Do not implement remote calling-card deployment.
-
-Replace that original feature with a local verified-access intelligence record that displays the target, evidence, timestamp, and competition-authorized status.
-
-## 2.3 Human approval
-
-Automate routine, explicitly permitted tasks.
-
-Require human approval for:
-
-- Ambiguous competition permissions.
-- Potentially disruptive tests.
-- Changes that could interrupt a service.
-- Unrecognized remediation actions.
-- Operations with uncertain scope.
-- Actions outside predefined allowlists.
-
-The AI assistant must never override the safety engine.
-
-## 2.4 Emergency stop
-
-Implement an immediate emergency stop.
-
-The following commands must stop active operations:
-
-```text
-STOP
-GAME OVER
-ww3 stop
-ww3 emergency
-```
-
-The emergency stop must:
-
-- Stop new attack jobs.
-- Stop new scanning jobs.
-- Stop submission retries.
-- Stop scheduled operations.
-- Preserve the database and logs.
-- Safely stop managed local containers and processes.
-- Preserve the final competition state.
-- Generate a final report.
-
-Do not terminate unrelated system processes.
-
----
-
-# 3. CONFIGURATION AND CREDENTIALS
-
-I will provide competition credentials and configuration locally.
-
-Never ask me to paste passwords, API tokens, or private keys into a prompt or source file.
-
-Create a configuration wizard.
-
-Example configuration:
-
-```yaml
-project:
-  name: "We THOUGHT THIS WAS WORLD WAR 3"
-  environment: "competition"
-  timezone: "Africa/Maseru"
-
-competition:
-  team_id: ""
-  competition_name: ""
-  tick_seconds: 120
-  competition_end_time: null
-
-network:
-  vpn_interface: ""
-  scope_file: "competition_scope.txt"
-
-submission:
-  enabled: false
-  api_url: ""
-  method: ""
-  flag_field: ""
-  authentication_type: ""
-  token_environment_variable: ""
-
-team:
-  machines: []
-  services: []
-
-honeypot:
-  enabled: true
-  listen_interface: ""
-  allowed_ports: []
-
-operations:
-  automated_defence: true
-  automated_reconnaissance: true
-  automated_flag_submission: true
-  require_approval_for_disruptive_actions: true
-```
-
-This is an example schema, not a real credential configuration.
-
-Use environment variables or an operating-system credential store for secrets.
-
-Create:
-
-```text
-.env.example
-```
-
-Never commit `.env`.
-
-On startup:
-
-- Detect missing credentials.
-- Detect unconfigured submission endpoints.
-- Detect missing scope entries.
-- Detect invalid configuration.
-- Explain what is missing.
-- Stop operations that depend on incomplete configuration.
-
-Do not invent API endpoints, authentication formats, request fields, or competition rules.
-
-I will supply the official API documentation or configuration.
-
-Build the submission adapter around the actual documentation.
-
----
-
-# 4. PHASE 0 — BUILD EVERYTHING BEFORE OPERATIONS
-
-This phase has priority over everything else.
-
-Build the entire system first.
-
-Do not begin competition scanning or attack operations during development.
-
-## 4.1 Development sequence
-
-Work in the following order.
-
-### Step 1: Inspect the environment
-
-- Inspect the existing project directory.
-- Read `CLAUDE.md` fully.
-- Inspect existing files and folders.
-- Identify available system tools.
-- Identify Python and Node versions.
-- Identify Docker availability.
-- Identify available network interfaces.
-- Identify installed monitoring tools.
-- Identify existing competition configuration.
-- Preserve useful existing work.
-
-Do not overwrite valuable files without inspecting them.
-
-### Step 2: Build the backend
+Any competition-approved interaction with another team's assigned service must be limited to the precise permissions documented in the competition rules and scope configuration.
 
 Implement:
 
-- Application configuration.
-- Database.
-- Authentication for the local dashboard.
-- Scope enforcement.
-- Safety engine.
-- Event bus.
-- Orchestrator.
-- Scheduler.
-- Module interfaces.
-- Audit logging.
-- API endpoints.
-- WebSocket events.
-
-### Step 3: Build the operational engines
-
-Implement the attack, defence, intelligence, flag, and honeypot modules.
-
-### Step 4: Build the dashboard
-
-Build the full command centre.
-
-### Step 5: Build the terminal interface
-
-Implement all terminal commands and interactive displays.
-
-### Step 6: Build the independent daemon
-
-Create a background service that runs independently of Claude Code.
-
-### Step 7: Build the test suite
-
-Test each module individually and as an integrated system.
-
-### Step 8: Verify everything
-
-Run the full verification process.
-
-Only when every critical check passes may the framework enter competition operation mode.
-
----
-
-# 5. CENTRAL COMMAND CENTRE — WEB DASHBOARD
-
-The dashboard is a core component, not a decorative afterthought.
-
-It must look like an advanced military cyber operations centre, SOC, and futuristic intelligence platform.
-
-The visual experience should be inspired by sophisticated fictional cyber command systems.
-
-## 5.1 Visual identity
-
-Official title:
-
-**We THOUGHT THIS WAS WORLD WAR 3**
-
-Design direction:
-
-- Near-black background.
-- Deep charcoal panels.
-- Neon red threat indicators.
-- Electric cyan and blue intelligence displays.
-- Green operational indicators.
-- Amber warnings.
-- White typography.
-- Monospaced technical typography.
-- Subtle glowing borders.
-- Animated scanning lines.
-- Radar rings.
-- Network grids.
-- Live telemetry.
-- 3D wireframe effects where performance allows.
-- Targeting overlays.
-- Moving data traces.
-- Waveforms.
-- Tactical maps.
-- Animated alert indicators.
-- Command-line-inspired elements.
-
-The interface must feel alive.
-
-Use motion purposefully.
-
-Do not make the interface cluttered.
-
-Do not sacrifice readability or responsiveness for effects.
-
-Support desktop and smaller displays.
-
-## 5.2 Dashboard navigation
-
-Create these main sections:
-
-1. OVERVIEW
-2. ATTACK OPERATIONS
-3. DEFENCE OPERATIONS
-4. NETWORK INTELLIGENCE
-5. TARGET INVENTORY
-6. FLAG CONTROL
-7. HONEYPOT
-8. INCIDENT RESPONSE
-9. SERVICES
-10. ACTIVITY TIMELINE
-11. ALERTS
-12. TERMINAL
-13. SYSTEM HEALTH
-14. SETTINGS
-
-## 5.3 Overview dashboard
-
-The main screen must display:
-
-### Competition status
-
-- Competition name.
-- Team ID.
-- Current tick.
-- Elapsed competition time.
-- Competition status.
-- Connection status.
-- VPN status.
-- Framework status.
-- Daemon status.
-
-### Operational statistics
-
-- Total flags discovered.
-- Total flags validated.
-- Total flags submitted.
-- Accepted flags.
-- Rejected flags.
-- Pending submissions.
-- Submission success rate.
-- Average capture-to-submit time.
-- Our services online.
-- Our services offline.
-- Active incidents.
-- Honeypot connections.
-- Security alerts.
-- Active authorized jobs.
-
-### Visual components
-
-- Live network topology.
-- Service health overview.
-- Attack and defence activity timeline.
-- Flag submission chart.
-- Network traffic visualization.
-- Threat radar.
-- Recent events.
-- Active incidents.
-- System health.
-- Current operational status.
-
-All production dashboard data must come from the real backend.
-
-Never invent live results.
-
-Clearly label simulated test data.
-
-## 5.4 Network topology
-
-Build an interactive network map.
-
-Show:
-
-- Our central machine.
-- Our team machines.
-- Our services.
-- Authorized opponent targets.
-- Honeypot.
-- Competition VPN.
-- Official submission endpoint.
-
-Each node must have a status.
-
-Possible states:
-
-- ONLINE
-- OFFLINE
-- UNKNOWN
-- UNDER INVESTIGATION
-- WARNING
-- COMPROMISED — VERIFIED
-- PROTECTED
-- HONEYPOT
-
-Only show COMPROMISED when supported by actual authorized evidence.
-
-Clicking a node opens its details.
-
-## 5.5 Live activity feed
-
-Show a live stream of important events.
-
-Examples:
-
-```text
-[16:04:11] SYSTEM       Framework initialized
-[16:04:12] NETWORK      VPN connection verified
-[16:04:14] DEFENCE      Web service health check passed
-[16:04:18] ATTACK       Authorized assessment started
-[16:04:21] FLAGS        Genuine flag candidate detected
-[16:04:22] FLAGS        Flag validation passed
-[16:04:23] SUBMISSION   Official API accepted submission
-[16:04:29] HONEYPOT     New inbound connection detected
-```
-
-Use timestamps and severity indicators.
-
-Events must be real and generated by the backend.
-
-## 5.6 Threat radar
-
-Create a live threat radar displaying:
-
-- Detected source IPs.
-- Honeypot activity.
-- Suspicious connections.
-- Unusual traffic.
-- Failed login attempts.
-- Port scanning indicators.
-- Attack patterns.
-- Incident severity.
-
-The radar must be backed by actual collected events.
-
-Do not fabricate attackers or attribution.
-
----
-
-# 6. ATTACK OPERATIONS ENGINE
-
-This module is responsible for authorized competition reconnaissance, assessment, and flag discovery.
-
-It must be modular and rule-aware.
-
-## 6.1 Target inventory
-
-Import targets from:
-
-```text
-competition_scope.txt
-```
-
-Classify each target.
-
-Track:
-
-- IP address.
-- Hostname.
-- Team classification, if officially known.
-- Discovered ports.
-- Services.
-- Service versions.
-- Last seen.
-- Last scan.
-- Assessment status.
-- Findings.
-- Evidence.
-- Flags discovered.
-- Operational notes.
-
-## 6.2 Reconnaissance
-
-Implement controlled reconnaissance.
-
-Use tools such as:
-
-- Nmap.
-- Service fingerprinting.
-- DNS lookups where authorized.
-- TCP connectivity checks.
-- HTTP service discovery.
-- TLS certificate inspection.
-- Banner identification.
-
-Use configurable scan profiles.
-
-Example:
-
-```text
-LIGHT
-STANDARD
-DETAILED
-MANUAL
-```
-
-All profiles must respect:
-
-- Competition scope.
-- Rate limits.
-- Time budgets.
-- Explicitly permitted techniques.
-
-Do not use aggressive scan profiles by default.
-
-## 6.3 Service discovery
-
-Identify:
-
-- HTTP.
-- HTTPS.
-- SSH.
-- FTP.
-- DNS.
-- SMTP.
-- Databases.
-- Custom TCP services.
-- Other discovered competition services.
-
-Record service fingerprints and changes over time.
-
-## 6.4 Vulnerability assessment
-
-Implement a finding system that records:
-
-- Finding ID.
-- Target.
-- Service.
-- Vulnerability category.
-- Severity.
-- Evidence.
-- Timestamp.
-- Validation status.
-- Recommended remediation.
-- Competition rule reference.
-
-Use safe validation first.
-
-Only execute competition-authorized exploit modules that are explicitly configured and compatible with the rules.
-
-Never run arbitrary exploit scripts simply because they exist in the `exploits/` directory.
-
-Every module must declare:
-
-- Supported target types.
-- Required permissions.
-- Expected impact.
-- Network requirements.
-- Timeout.
-- Rate limit.
-- Cleanup requirements.
-- Safety classification.
-
-Require approval when an action is potentially disruptive or outside the established allowlist.
-
-## 6.5 Flag discovery
-
-Implement a flag detection pipeline.
-
-A flag candidate must include:
-
-- Candidate ID.
-- Source target.
-- Source service.
-- Discovery method.
-- Discovery timestamp.
-- Tick.
-- Evidence reference.
-- Validation result.
-- Submission status.
-
-Validate the flag format against the actual competition format.
-
-Do not treat arbitrary text as a valid flag.
-
-Never submit honeypot canaries or invented flags.
-
-Never expose actual flags in ordinary logs or dashboard notifications unnecessarily.
-
-Store sensitive flag values securely in the database.
-
----
-
-# 7. FLAG CONTROL AND OFFICIAL SUBMISSION ENGINE
-
-This is one of the highest-priority modules.
-
-The framework must submit legitimate captured flags quickly and reliably.
-
-## 7.1 Submission pipeline
-
-```text
-FLAG DETECTED
-      |
-      v
-VALIDATION
-      |
-      v
-DUPLICATE CHECK
-      |
-      v
-SUBMISSION QUEUE
-      |
-      v
-OFFICIAL API REQUEST
-      |
-      v
-RESPONSE VERIFICATION
-      |
-      v
-DATABASE UPDATE
-      |
-      v
-DASHBOARD + EVENT NOTIFICATION
-```
-
-## 7.2 Submission states
-
-Implement:
-
-- DISCOVERED
-- VALIDATING
-- INVALID
-- DUPLICATE
-- QUEUED
-- SUBMITTING
-- ACCEPTED
-- REJECTED
-- PENDING
-- RETRYING
-- ERROR
-
-Only mark a flag ACCEPTED when the official API explicitly confirms acceptance.
-
-Never infer acceptance from:
-
-- HTTP 200 alone.
-- A successful TCP connection.
-- A local simulation.
-- A command returning without an error.
-- A fabricated response.
-
-Parse the documented API response.
-
-## 7.3 Submission reliability
-
-Implement:
-
-- Deduplication.
-- Persistent queue.
-- Atomic database transactions.
-- Retry with exponential backoff.
-- Request timeouts.
-- API rate-limit handling.
-- Idempotency where supported.
-- Error classification.
-- Submission history.
-- Per-flag audit records.
-
-The submission worker must operate independently of the dashboard.
-
-Target a capture-to-submission time below 10 seconds where the API and competition rules permit.
-
-Never bypass API rate limits.
-
-## 7.4 Flag dashboard
-
-Display:
-
-- Captured flags.
-- Validated flags.
-- Submitted flags.
-- Accepted flags.
-- Rejected flags.
-- Pending flags.
-- Submission history.
-- API health.
-- Submission latency.
-- Failure reasons.
-
-Provide filters by:
-
-- Tick.
-- Target.
-- Service.
-- Status.
-- Time.
-- Discovery source.
-
----
-
-# 8. DEFENCE OPERATIONS ENGINE
-
-Defence is a top operational priority.
-
-Our services must remain available throughout the competition.
-
-The framework must continuously monitor our assigned infrastructure.
-
-## 8.1 Service monitoring
-
-Monitor every configured service.
-
-Track:
-
-- Host.
-- Port.
-- Protocol.
-- Service name.
-- Health status.
-- Response time.
-- HTTP response.
-- Expected response.
-- Last successful check.
-- Last failure.
-- Uptime percentage.
-
-Check services at configurable intervals.
-
-Default target interval: every 30 seconds.
-
-## 8.2 Host monitoring
-
-Where authorized and supported, monitor:
-
-- CPU utilization.
-- Memory usage.
-- Disk usage.
-- Network utilization.
-- Running processes.
-- Service state.
-- System load.
-- Authentication logs.
-- Unusual process changes.
-
-## 8.3 Network monitoring
-
-Detect:
-
-- Unusual inbound connections.
-- Unexpected outbound connections.
-- Repeated connection attempts.
-- Suspicious ports.
-- Traffic spikes.
-- Unexpected listening services.
-- Network configuration changes.
-
-Use available integrations such as Zeek, Suricata, and tshark.
-
-## 8.4 File integrity monitoring
-
-Monitor important files on our own machines.
-
-Detect:
-
-- Unexpected changes.
-- Modified service configurations.
-- Changed binaries.
-- New files in sensitive directories.
-- Unexpected permission changes.
-- Unexpected startup entries.
-
-Maintain approved baseline hashes.
-
-## 8.5 Login monitoring
-
-Monitor our own assigned systems for:
-
-- Failed authentication attempts.
-- Successful unexpected logins.
-- Repeated login attempts.
-- Unusual login times.
-- New accounts.
-- Privilege changes.
-
-Do not collect passwords.
-
-## 8.6 Automatic defence
-
-The response engine may automatically perform approved, reversible actions on our own infrastructure.
-
-Examples:
-
-- Restarting a failed managed service.
-- Restarting an unhealthy local container.
-- Restoring an approved configuration backup.
-- Reapplying a known-good configuration.
-- Disabling an unauthorized local service when explicitly allowlisted.
-- Isolating a managed container when policy permits.
-
-Before every change:
-
-1. Record the incident.
-2. Capture the current state.
-3. Create a backup.
-4. Validate the proposed change.
-5. Apply the change.
-6. Verify service health.
-7. Roll back if verification fails.
-8. Record the result.
-
-Never blindly patch a production service.
-
-Never apply unverified patches automatically.
-
-## 8.7 Defence dashboard
-
-Display:
-
-- Services online/offline.
-- Uptime.
-- Health-check results.
-- Active incidents.
-- Recent failed logins.
-- Suspicious processes.
-- File integrity changes.
-- Recent remediation.
-- Recovery history.
-- Defence alerts.
-
----
-
-# 9. NETWORK INTELLIGENCE AND OPPONENT INVENTORY
-
-Create an intelligence module that organizes information obtained through authorized competition observations.
-
-Maintain an inventory of discovered competition services.
-
-For every target, track:
-
-```text
-Target ID
-IP address
-Team association, if officially known
-Open ports
-Detected services
-Service versions
-Observed changes
-Assessment findings
-Evidence
-Relevant flags
-Last observation
-Confidence
-```
-
-Create a timeline of observations.
-
-Identify service changes between ticks.
-
-Correlate observations with relevant security findings.
-
-Do not claim a vulnerability is confirmed without evidence.
-
-Do not claim a machine is compromised without verified evidence.
-
-Do not attempt to identify individual people behind IP addresses.
-
-Do not collect personal information.
-
-## 9.1 Intelligence correlation
-
-Correlate:
-
-- Service changes.
-- Network observations.
-- Honeypot activity.
-- Attack indicators.
-- Flag discoveries.
-- Submission events.
-- Our own service health.
-
-Provide useful summaries.
-
-Example:
-
-```text
-INTELLIGENCE UPDATE
-
-Target: 10.10.5.12
-Observation: HTTP service changed
-Previous fingerprint: nginx
-Current fingerprint: Apache
-Confidence: High
-Evidence: Service fingerprint comparison
-Recommended action: Reassess exposed application surface
-```
-
----
-
-# 10. HONEYPOT AND DECEPTION SYSTEM
-
-Build a dedicated honeypot system on infrastructure assigned to our team.
-
-Its purpose is to detect unauthorized access attempts, collect safe behavioral telemetry, and provide defensive intelligence.
-
-It must never expose real flags, credentials, internal source code, or sensitive data.
-
-## 10.1 Network isolation
-
-The honeypot must:
-
-- Run in a dedicated Docker container.
-- Have no unrestricted outbound internet access.
-- Use a controlled inbound path through the competition VPN and host firewall.
-- Be isolated from our production services.
-- Use resource limits.
-- Avoid exposing the Docker socket.
-- Avoid privileged container execution.
-- Use read-only filesystem access wherever practical.
-- Store logs in a controlled persistent volume.
-
-Important technical correction:
-
-Do not use `network_mode: none` if the honeypot is expected to receive inbound connections.
-
-Instead, configure a dedicated internal Docker network and controlled inbound routing through the host firewall.
-
-Block outbound internet access.
-
-Verify isolation through actual tests.
-
-Do not simply assume the container is isolated.
-
-## 10.2 Fake SSH service
-
-Build a fake SSH-like interaction service on a non-standard port.
-
-It must:
-
-- Record connection metadata.
-- Record timestamps.
-- Record source IP.
-- Record attempted usernames.
-- Never store attempted passwords.
-- Never authenticate against real accounts.
-- Never execute attacker-supplied commands.
-- Never provide access to the host filesystem.
-- Never expose real credentials.
-- Never execute real shell commands.
-
-Provide a completely simulated shell.
-
-Commands such as:
-
-```text
-help
-ls
-pwd
-whoami
-uname -a
-ps aux
-cat /etc/passwd
-cat flag.txt
-exit
-```
-
-must return fabricated, harmless responses.
-
-Log command attempts and session behavior.
-
-Do not impersonate real teams or insert personal information into fake output.
-
-## 10.3 Echo chamber
-
-Create a fake command-response engine.
-
-It must:
-
-- Simulate a Linux-like environment.
-- Return fabricated filesystem listings.
-- Display harmless fake processes.
-- Display synthetic configuration files.
-- Show synthetic service information.
-- Record commands.
-- Display the official project branding.
-- Disconnect cleanly.
-
-The fake shell must never pass attacker commands to `subprocess`, `os.system`, a real shell, or the host.
-
-## 10.4 Canary system
-
-Build a canary manager for our own honeypot.
-
-Canaries may include synthetic files and unique identifiers.
-
-Example:
-
-```text
-CANARY_ROOT_<TEAM>_<TICK>_<RANDOM>
-CANARY_ENV_<TEAM>_<TICK>_<RANDOM>
-CANARY_GIT_<TEAM>_<TICK>_<RANDOM>
-```
-
-Possible synthetic locations:
-
-```text
-/opt/honeypot/flag.txt
-/opt/honeypot/.env
-/opt/honeypot/.git/config
-/opt/honeypot/home/user/.aws/credentials
-/opt/honeypot/home/user/.ssh/id_rsa
-```
-
-All contents must be fake.
-
-Never put real credentials or real competition flags in these files.
-
-Before enabling canaries, check the competition rules.
-
-If fake flags or deceptive scoreboard artifacts are prohibited or unclear, disable flag-shaped canaries and use non-submittable unique identifiers instead.
-
-Never submit a canary as a competition flag.
-
-## 10.5 Tarpit
-
-Implement an optional, resource-limited decoy service.
-
-It must operate only on our own honeypot infrastructure.
-
-It must not consume excessive resources, flood connections, or disrupt legitimate scanners.
-
-Make it configurable and disable it by default until competition rules have been checked.
-
-## 10.6 Honeypot intelligence
-
-Record:
-
-- Connection ID.
-- Source IP.
-- Source port.
-- Destination port.
-- Timestamp.
-- Session duration.
-- Attempted username.
-- Commands attempted.
-- Services accessed.
-- Canary identifier accessed.
-- Observed behavior.
-- Risk classification.
-
-Do not store passwords.
-
-Do not execute commands.
-
-## 10.7 Original Sesotho banner
-
-Create the original terminal banner:
-
-`assets/ww3_sesotho.py`
-
-Preserve these three phrases exactly as written:
-
-```text
-Kea Patlotsa Hela Loo
-Ke Asau Palesa Nna
-Ke Ntatau Sthabi
-```
-
-They are decorative flavor text.
-
-Do not translate, explain, rewrite, or alter them.
-
-Preserve the skulls, creepy emojis, animations, and terminal styling from the original specification.
-
-Use the exact project title:
-
-**We THOUGHT THIS WAS WORLD WAR 3**
-
-Use the original visual language:
-
-- ☠
-- 💀
-- 😈
-- 😂
-- 🤣
-- 👹
-- 🩸
-- 🕷
-- 🕸
-- ⚰
-
-Create both:
-
-```text
-assets/ww3_sesotho.py
-assets/ww3_sesotho_web.html
-```
-
-Also create:
-
-```text
-assets/ww3_banner.html
-```
-
-as a static fallback.
-
-The banner must be used on our own honeypot and dashboard.
-
-Do not inject it into other teams' terminals or machines.
-
----
-
-# 11. CONTINUOUS OPERATIONS DAEMON
-
-This is a critical architectural requirement.
-
-Claude Code is not the daemon.
-
-The framework must continue operating even when the Claude Code session closes.
-
-Create:
-
-`tools/daemon.py`
-
-The daemon must run independently under systemd or a suitable process supervisor.
-
-It must:
-
-- Start the orchestrator.
-- Run scheduled jobs.
-- Monitor operational health.
-- Process flag queues.
-- Perform official API submissions.
-- Monitor our services.
-- Collect honeypot events.
-- Record heartbeats.
-- Handle recoverable errors.
-- Restart managed workers when appropriate.
-- Preserve state across restarts.
-- Shut down gracefully.
-
-Use a process lock to prevent duplicate daemon instances.
-
-Do not rely on Claude Code Monitor sessions as the primary source of continuous operation.
-
-## 11.1 Scheduling
-
-Use configurable intervals.
-
-Initial defaults:
-
-| Operation | Interval |
-|---|---:|
-| Flag submission queue | Continuous |
-| Daemon heartbeat | 10 seconds |
-| Service health checks | 30 seconds |
-| Honeypot event processing | 30 seconds |
-| Authorized reconnaissance | 60 seconds |
-| Network intelligence refresh | 60 seconds |
-| System health review | 60 seconds |
-| Monitor health review | 4 minutes |
-
-The competition tick duration must be configurable.
-
-The original default is 120 seconds, but use the actual competition configuration when provided.
-
-Do not let a slow scanning task block flag submission or service monitoring.
-
-Use separate asynchronous workers and bounded concurrency.
-
-Prioritize:
-
-1. Flag submissions.
-2. Critical service health.
-3. Incident response.
-4. Honeypot event processing.
-5. Authorized reconnaissance.
-6. Intelligence enrichment.
-
-## 11.2 Daemon reliability
-
-Implement:
-
-- Graceful shutdown.
-- Heartbeat.
-- Process locking.
-- Worker supervision.
-- Retry management.
-- Crash recovery.
-- Database transactions.
-- Structured logs.
-- Health endpoints.
-- Startup recovery.
-- Persistent queues.
-
-Do not restart the entire application because one worker fails.
-
----
-
-# 12. DATABASE AND EVENT LEDGER
-
-Use SQLite as the initial authoritative store.
-
-The database must contain:
-
-- Competition.
-- Team.
-- Machine.
-- Service.
-- Target.
-- Scan.
-- Finding.
-- Flag.
-- Submission.
-- Incident.
-- Honeypot session.
-- Canary event.
-- Network observation.
-- Action.
-- Alert.
-- Escalation.
-- System heartbeat.
-
-Every important operation must generate an event.
-
-Maintain an append-only event history.
-
-Current status fields may be updated, but historical records must not be deleted.
-
-## 12.1 Ledger snapshot
-
-Also maintain:
-
-`ledger.json`
-
-Example:
-
-```json
-{
-  "game": {
-    "started_at": null,
-    "tick_current": 0,
-    "tick_seconds": 120,
-    "status": "stopped",
-    "daemon_heartbeat": null,
-    "monitor_heartbeat": null
-  },
-  "my_team": {
-    "id": "",
-    "services": []
-  },
-  "flags_captured": [],
-  "flags_submitted": [],
-  "machines_observed": [],
-  "honeypot_hits": [],
-  "canary_hits": [],
-  "service_checks": [],
-  "patches_applied": [],
-  "actions": [],
-  "violations": [],
-  "escalations": [],
-  "counter_attacks": []
-}
-```
-
-SQLite is authoritative.
-
-`ledger.json` is a generated snapshot for inspection and compatibility.
-
-Do not maintain two independent sources of truth.
-
-Use safe atomic snapshot generation and file locking.
-
----
-
-# 13. TERMINAL COMMAND CENTRE
-
-Build a powerful CLI named:
-
-`ww3`
-
-The terminal should feel like an advanced cyber command centre.
-
-Display the original animated banner when appropriate.
-
-Use Rich or Textual for:
-
-- Tables.
-- Live panels.
-- Status displays.
-- Progress indicators.
-- Alerts.
-- Network summaries.
-- Interactive menus.
-
-## 13.1 Commands
-
-Implement these commands:
-
-```bash
-ww3
-ww3 start
-ww3 stop
-ww3 emergency
-ww3 status
-ww3 dashboard
-ww3 config
-ww3 verify
-ww3 doctor
-
-ww3 targets
-ww3 targets list
-ww3 targets show <target>
-
-ww3 scan
-ww3 scan --profile light
-ww3 scan --profile standard
-
-ww3 services
-ww3 services status
-ww3 services check
-
-ww3 attack status
-ww3 attack findings
-ww3 attack history
-
-ww3 defence status
-ww3 defence incidents
-ww3 defence health
-ww3 defence recover
-
-ww3 network topology
-ww3 network connections
-
-ww3 flags
-ww3 flags captured
-ww3 flags pending
-ww3 flags accepted
-ww3 flags rejected
-ww3 flags submit
-
-ww3 honeypot status
-ww3 honeypot sessions
-ww3 honeypot logs
-
-ww3 alerts
-ww3 incidents
-ww3 timeline
-ww3 logs
-ww3 report
-ww3 backup
-ww3 cleanup
-```
-
-Commands that perform network actions must always use the scope manager.
-
-Commands that modify infrastructure must follow the approval and rollback policies.
-
-The CLI must clearly explain invalid commands.
-
-## 13.2 Live terminal status
-
-Display a continuously updating status panel.
-
-Example:
-
-```text
-☠ We THOUGHT THIS WAS WORLD WAR 3 ☠
-
-SYSTEM STATUS: OPERATIONAL
-COMPETITION: ACTIVE
-CURRENT TICK: 042
-VPN: CONNECTED
-DAEMON: RUNNING
-DATABASE: HEALTHY
-
-DEFENCE
-Services Online:       3/3
-Active Incidents:      0
-Uptime:                100%
-
-ATTACK
-Authorized Jobs:       2
-Verified Findings:     4
-Flags Discovered:      8
-
-FLAG CONTROL
-Accepted:              7
-Pending:               0
-Rejected:              1
-
-HONEYPOT
-Active Sessions:       1
-Total Connections:     24
-Canary Events:         3
-
-SYSTEM
-CPU:                   18%
-Memory:                42%
-Database:              HEALTHY
-
-[16:04:22] Official API accepted submission.
-[16:04:29] Honeypot detected a new connection.
-```
-
-All numbers must come from actual application state.
-
----
-
-# 14. NOTIFICATIONS AND ESCALATION
-
-The framework must not overwhelm me with unnecessary notifications.
-
-Use severity levels:
-
-- INFO
-- NOTICE
-- WARNING
-- HIGH
-- CRITICAL
-
-Escalate for:
-
-1. An assigned service remains down after an approved recovery attempt.
-2. A legitimate flag is rejected repeatedly.
-3. An out-of-scope operation was blocked.
-4. The official submission system is unavailable for an extended period.
-5. The central daemon is unhealthy.
-6. A critical security incident requires human intervention.
-
-Example:
-
-```text
-🚨 HUMAN ACTION REQUIRED
-
-Reason: Assigned web service remains offline.
-Machine: TEAM-WEB-01
-Service: HTTP/80
-Attempts: 2
-Last status: Connection refused
-
-Recommended action:
-Inspect the service and approve recovery.
-
-Time: 16:04:22
-```
-
-Do not escalate every temporary connection failure.
-
-Do not escalate harmless honeypot activity.
-
-Keep an escalation history.
-
----
-
-# 15. EMERGENCY CLEANUP
-
-Create:
-
-`tools/emergency_cleanup.py`
-
-The cleanup process must:
-
-1. Stop accepting new jobs.
-2. Stop scheduled reconnaissance.
-3. Stop submission retries.
-4. Allow in-flight API requests to finish or time out safely.
-5. Stop managed background workers.
-6. Stop managed honeypot containers.
-7. Preserve all logs.
-8. Generate the final ledger snapshot.
-9. Generate a final report.
-10. Record cleanup results.
-
-Only clean up processes and infrastructure managed by this framework.
-
-Never execute arbitrary remote cleanup commands.
-
-Never assume an opponent machine should be modified or restored.
-
-Do not delete evidence or history.
-
-Provide a final summary.
-
----
-
-# 16. TESTING AND VERIFICATION
-
-The framework must have a serious test suite.
-
-Do not declare the project complete simply because the application starts.
-
-## 16.1 Unit tests
-
-Test:
-
-- Configuration loading.
 - Scope validation.
-- CIDR matching.
-- Safety engine.
-- Flag validation.
-- Duplicate detection.
-- Submission state transitions.
-- Retry handling.
-- Database transactions.
-- Event bus.
-- Scheduler.
-- Service monitoring.
-- Honeypot command simulation.
-- Alert severity.
-- Emergency stop.
+- An emergency stop.
+- Global operation kill switch.
+- Rate limiting.
+- Concurrency limits.
+- Audit logging.
+- Safe timeouts.
+- Reversible configuration changes.
+- Backup and rollback for our own systems.
+- Clear operator confirmation for high-impact actions.
 
-## 16.2 Integration tests
+If scope is unclear, stop and request clarification rather than guessing.
 
-Test:
+---
 
-- Backend and database.
-- Dashboard and backend.
-- WebSocket updates.
-- Terminal and backend.
-- Flag queue and mock API.
-- Daemon and scheduler.
-- Honeypot and event collector.
-- Service health monitoring.
-- Backup and restore.
+# 4. SYSTEM ARCHITECTURE
 
-Use a mock official submission API during development.
+Build a modular architecture.
 
-Never send test flags to the real competition endpoint.
+Recommended technology stack:
 
-## 16.3 Safety tests
+**Backend**
+- Python.
+- FastAPI.
+- SQLAlchemy.
+- Pydantic.
+- WebSockets.
+- SQLite initially, with PostgreSQL support.
+- Async workers where appropriate.
 
-Verify that:
+**Frontend**
+- React.
+- TypeScript.
+- Modern component architecture.
+- Responsive layout.
+- Real-time WebSocket updates.
+- Premium dark cyber HUD interface.
 
-- Out-of-scope IPs are blocked.
-- Invalid CIDRs are rejected.
-- Unknown network destinations are rejected.
-- Rate limits work.
-- Disallowed actions cannot run.
-- Remote arbitrary shell commands cannot run.
-- Fake shell commands are never executed.
-- Honeypot cannot reach the unrestricted internet.
-- Honeypot cannot access production credentials.
-- Canaries cannot enter the submission queue.
-- Emergency stop works.
-- Secrets never appear in logs.
+**Terminal**
+- Python Rich and Textual.
+- Interactive commands.
+- Live operational tables.
+- Colored alerts.
+- Structured output.
 
-## 16.4 Performance tests
+**Deployment**
+- Docker Compose.
+- Environment-based configuration.
+- Persistent volumes.
+- Health checks.
+- systemd or another reliable process supervisor.
 
-Test:
+Use a clean modular project structure. Do not place the entire application in one enormous file.
 
-- Concurrent event ingestion.
-- Dashboard updates.
-- Submission queue throughput.
-- Database growth.
-- Daemon restart recovery.
-- Memory consumption.
-- Long-running operation.
+Suggested modules:
 
-## 16.5 Verification command
+- `core/`
+- `orchestrator/`
+- `scope/`
+- `safety/`
+- `attack/`
+- `defence/`
+- `network_intelligence/`
+- `flags/`
+- `honeypot/`
+- `monitoring/`
+- `incident_response/`
+- `ai/`
+- `alerts/`
+- `dashboard/`
+- `terminal/`
+- `database/`
+- `deployment/`
+- `tests/`
+- `docs/`
+
+Adapt the existing directory structure where it is already sound.
+
+---
+
+# 5. THE VISUAL IDENTITY
+
+The application must look like a high-end cyber operations command centre.
+
+The visual experience is a core product requirement, not a decorative theme.
+
+Design inspiration:
+
+- Advanced military command centres.
+- Cybersecurity operations centres.
+- Futuristic intelligence systems.
+- Dark science-fiction interfaces.
+- Holographic network visualizations.
+- High-end threat intelligence dashboards.
+- Cinematic cyberpunk interfaces.
+
+It must feel intimidating, intelligent, precise, and professional.
+
+Do not make it look like a generic admin dashboard.
+
+## Official colour palette
+
+Use these exact colours consistently:
+
+| Colour | Hex | Purpose |
+|---|---|---|
+| Blood Red | `#FF2020` | Critical threats and emergencies |
+| Neon Cyan | `#00E5FF` | Network intelligence and scanning |
+| Toxic Green | `#39FF14` | Protected and healthy systems |
+| Deep Purple | `#9D00FF` | AI intelligence and unknown activity |
+| Amber | `#FFB000` | Warnings |
+| Near Black | `#07080C` | Main background |
+| Ghost White | `#E8E8F0` | Primary text |
+
+Use red sparingly for genuine critical events. Never display fake critical incidents as real operational data.
+
+## Visual effects to implement
+
+Implement these effects throughout the application where they improve the experience:
+
+1. Animated CRT scanlines.
+2. Subtle screen flickering.
+3. Digital rain and hexadecimal data streams.
+4. Radar sweeps.
+5. Animated radar rings.
+6. 3D wireframe globe.
+7. Animated network topology.
+8. Glowing connection lines.
+9. Target-lock overlays.
+10. Scanning brackets.
+11. Threat heatmaps.
+12. Animated waveform displays.
+13. Heartbeat-style system monitoring.
+14. Digital dust particles.
+15. Glitch transitions.
+16. Holographic panel transitions.
+17. Animated circuit-board backgrounds.
+18. Live packet-flow visualizations.
+19. Network pulse animations.
+20. Animated system status indicators.
+21. Data-stream typography.
+22. Scrolling forensic timelines.
+23. AI scanning eye.
+24. Threat detection animations.
+25. Live alert flashes.
+26. Animated service-health indicators.
+27. Subtle cursor trails.
+28. Terminal typing animations.
+29. Tactical map overlays.
+30. Animated countdown displays.
+
+Keep effects smooth and optimized. Provide a performance mode for the team's lower-powered machines.
+
+Do not sacrifice readability, accessibility, or operational clarity for effects.
+
+Add:
+- `NIGHTMARE MODE`: intense visual theme.
+- `SILENT WATCH`: low-animation monitoring theme.
+- `PERFORMANCE MODE`: reduced effects for weaker hardware.
+- `NORMAL MODE`: balanced default.
+
+---
+
+# 6. THE MAIN COMMAND CENTRE
+
+Create a full-screen home dashboard called:
+
+# THE WAR ROOM ☠
+
+This is the primary operational interface.
+
+It must include:
+
+### Top status bar
+- Project title.
+- Competition status.
+- Current competition timer.
+- System uptime.
+- Connection status.
+- Team status.
+- Active operations count.
+- Emergency stop control.
+
+### Main intelligence display
+- Live network map.
+- Our authorized infrastructure.
+- Service status.
+- Network activity.
+- Current incidents.
+- Threat indicators.
+- Honeypot activity.
+- Flag submission status.
+
+### Operational panels
+- Attack operations.
+- Defensive operations.
+- Service health.
+- Network intelligence.
+- Flag race tracker.
+- Incident response.
+- AI intelligence.
+- Event timeline.
+- Team coordination.
+
+### Competition scoreboard
+Where an official, permitted scoreboard feed exists, display verified data from that source.
+
+Do not fabricate scores, rankings, flags, accepted submissions, or opponent activity.
+
+Clearly label estimated or locally calculated metrics.
+
+### Team presence
+
+The platform is intended for four members working together in the same room.
+
+Create four operator panels:
+
+- OPERATOR 01 — Team Captain / Command.
+- OPERATOR 02 — Attack Operations.
+- OPERATOR 03 — Defence and Infrastructure.
+- OPERATOR 04 — Intelligence, Flags and Incident Analysis.
+
+These are configurable roles, not fixed permissions.
+
+Display:
+- Operator name or callsign.
+- Assigned role.
+- Current task.
+- Availability.
+- Last activity.
+- Current operational focus.
+
+Allow operators to reassign roles.
+
+Do not use the interface to imply that a team member performed an action they did not perform.
+
+Create a shared task board, activity feed, incident assignment system, and internal team notes.
+
+---
+
+# 7. SIGNATURE INTELLIGENCE MODULES
+
+Build these as real, integrated modules.
+
+## THE OVERSEER 👁
+
+The central AI intelligence and decision-support assistant.
+
+Responsibilities:
+- Summarize current competition state.
+- Explain detected incidents.
+- Identify service-health trends.
+- Recommend defensive priorities.
+- Explain suspicious events.
+- Summarize flag-submission progress.
+- Generate concise operator briefings.
+- Highlight uncertainty and missing evidence.
+
+Personality:
+Calm. Analytical. Precise. Slightly ominous.
+
+Example messages:
+
+`THE OVERSEER: Something changed. Reviewing the evidence.`
+
+`THE OVERSEER: Service health is deteriorating. Defensive review recommended.`
+
+`THE OVERSEER: No verified incident detected. Continuing observation.`
+
+It must never claim that an event occurred without evidence.
+
+It must never autonomously perform a prohibited or high-impact action.
+
+## GHOST PROTOCOL 🕷
+
+A suite for monitoring and correlating suspicious events on our own infrastructure.
+
+Submodules:
+
+- GHOST WATCHER — Detect unusual activity.
+- GHOST TRACE — Correlate event timelines and authorized network observations.
+- GHOST MEMORY — Maintain historical event context.
+- GHOST INTELLIGENCE — Explain suspicious patterns.
+- GHOST DEFENCE — Recommend permitted protective actions.
+
+Provide:
+- Event correlation.
+- Anomaly detection.
+- Connection history.
+- Service changes.
+- Honeypot event summaries.
+- Forensic timelines.
+- Evidence references.
+
+Never claim to identify a visitor's real-world identity from an IP address or connection.
+
+## THE WATCHTOWER 🛡️
+
+Continuous defensive monitoring.
+
+Capabilities:
+- Service availability checks.
+- Resource monitoring.
+- Log analysis.
+- Process health checks.
+- Network anomaly detection.
+- Configuration drift detection.
+- Unexpected service-change alerts.
+- Disk, CPU, and memory monitoring.
+- Defensive recommendations.
+- Authorized automatic recovery.
+
+Any automated remediation must be limited to our own infrastructure, reversible, logged, and validated after execution.
+
+## FLAG REAPER ☠
+
+The genuine flag validation and submission system.
+
+Capabilities:
+- Collect candidate flags from authorized sources.
+- Validate the configured flag format.
+- Deduplicate flags.
+- Associate flags with their source and challenge.
+- Queue submissions.
+- Submit through the official competition API.
+- Record API response codes and messages.
+- Track pending, rejected, accepted, and failed submissions.
+- Retry transient failures with backoff.
+- Respect API rate limits.
+
+Only display `ACCEPTED` when the official API explicitly confirms acceptance.
+
+Never invent flags or fake successful submissions.
+
+Never submit honeypot canaries, fabricated flags, or unverified strings.
+
+## THE ECHO CHAMBER 👹
+
+Build a controlled, fictional honeypot environment on our own authorized infrastructure.
+
+Its purpose is deception, observation, and training—not interference with other teams.
+
+Visual identity:
+- Black terminal.
+- Blood-red text.
+- Glitch effects.
+- Creepy system messages.
+- Simulated shell prompt.
+- Fictional files and services.
+- Animated connection indicators.
+
+Example simulated messages:
+
+`YOU WERE NOT SUPPOSED TO FIND THIS MACHINE.`
+
+`THE MACHINE REMEMBERS.`
+
+`EVERY CONNECTION LEAVES A FOOTPRINT.`
+
+`ECHO CHAMBER IS LISTENING.`
+
+Implement a safe simulated shell:
+
+- Only predefined fictional commands.
+- No real system shell execution.
+- No arbitrary command execution.
+- No real credential collection.
+- No password storage.
+- No access to host secrets.
+- No access to competition flags.
+- No outbound internet access.
+- No attacker-command execution.
+
+If an incoming connection is observed, record only permitted technical metadata, such as timestamp, destination service, and connection details allowed by the competition rules.
+
+Do not attempt to identify the human behind a connection.
+
+Use network isolation and host firewall rules to allow only the intended, authorized inbound traffic.
+
+A tarpit or resource-intensive deception feature must be disabled by default and only considered if explicitly permitted by the competition rules.
+
+Canary tokens must be fictional, unique, and never confused with genuine competition flags.
+
+## THE BLACK BOX 📦
+
+A reliable event history.
+
+Store:
+- Timestamp.
+- Event type.
+- Source component.
+- Operator.
+- Target identifier.
+- Scope decision.
+- Action.
+- Result.
+- Evidence reference.
+- Error details.
+
+Use SQLite as the authoritative event store.
+
+Generate an atomic `ledger.json` snapshot for convenient export.
+
+Do not silently modify historical records.
+
+## THE GRAVEYARD 💀
+
+Historical view of:
+- Resolved incidents.
+- Failed services.
+- Recovered services.
+- Rejected submissions.
+- Completed operations.
+- Retired honeypot events.
+
+Allow filtering by time, event type, service, and operator.
+
+## THE AUTOPSY 🧬
+
+Incident investigation module.
+
+For every incident, display:
+- What happened.
+- When it happened.
+- Which service was affected.
+- Evidence collected.
+- Relevant logs.
+- Timeline.
+- Severity.
+- Root-cause hypotheses.
+- Confidence level.
+- Recommended next steps.
+- Resolution status.
+
+Separate verified facts from hypotheses.
+
+## DEAD MAN'S SWITCH 🚨
+
+Emergency protection system.
+
+Trigger a safe suspension when:
+- An out-of-scope target is detected.
+- Scope configuration becomes invalid.
+- Critical configuration is missing.
+- The operator activates the emergency stop.
+- A safety invariant is violated.
+- A component begins an unauthorized operation.
+
+Stop new operations, cancel supported workers, preserve evidence, and display the reason.
+
+Never delete evidence during emergency shutdown.
+
+## LAST BREATH ⏳
+
+Competition countdown and end-of-game reporting.
+
+Display:
+- Time remaining.
+- Current verified score information, if available.
+- Submission queue.
+- Outstanding incidents.
+- Service-health summary.
+- Final operational checklist.
+
+Generate a final report when the competition ends.
+
+## AFTER ACTION 📋
+
+Automatically generate reports after significant operations or configured competition ticks.
+
+Include:
+- Events.
+- Results.
+- Service status.
+- Flag-submission results.
+- Incidents.
+- Defensive actions.
+- Outstanding risks.
+- Lessons learned.
+
+## SILENT WATCH 👁
+
+A low-noise monitoring mode.
+
+Only notify operators about events meeting configured severity thresholds.
+
+## NIGHTMARE MODE ☠
+
+An optional high-intensity visual theme.
+
+Use:
+- Red warning accents.
+- Glitch transitions.
+- Darker backgrounds.
+- More aggressive radar animations.
+- Stronger terminal styling.
+
+Do not make the system harder to operate or conceal real warnings.
+
+---
+
+# 8. OPERATIONAL INTELLIGENCE FEATURES
+
+Implement the following where supported by actual data:
+
+1. AI threat intelligence analyst.
+2. Live network hologram.
+3. Digital forensic wall.
+4. Tick prediction engine.
+5. AI command intelligence.
+6. Approved service recovery.
+7. Flag race tracker.
+8. Service survival score.
+9. Attack-surface change detector.
+10. Configuration drift detector.
+11. Evidence collector.
+12. Tick intelligence predictor.
+13. Defence recommendation engine.
+14. Submission watchdog.
+15. Network anomaly detector.
+16. Competition replay engine.
+17. Service dependency map.
+18. Automated pre-tick health check.
+19. Resource and capacity monitoring.
+20. Incident priority scoring.
+
+Predictions must be based on actual historical data and clearly marked as estimates.
+
+Do not invent intelligence about competitors.
+
+Do not claim to know another team's plans, machine state, identities, or vulnerabilities without authorized evidence.
+
+---
+
+# 9. THE FOUR-PERSON TEAM WAR ROOM
+
+The physical competition room has four members per team.
+
+Make the system useful for a team operating side by side.
+
+Provide:
+
+- One shared command dashboard.
+- Four operator identities.
+- Four task assignments.
+- Shared notes.
+- Internal alerts.
+- Incident ownership.
+- A common activity timeline.
+- A task priority queue.
+- A team status panel.
+- A shared countdown.
+- A team communication feed.
+
+Suggested default division:
+
+**Operator 01 — COMMAND**
+- Oversees the competition.
+- Monitors the scoreboard.
+- Assigns priorities.
+- Coordinates the team.
+- Approves high-impact actions.
+
+**Operator 02 — ATTACK OPERATIONS**
+- Runs approved checks against authorized competition targets.
+- Tracks assigned challenge work.
+- Reviews findings.
+- Sends validated results to the appropriate workflow.
+
+**Operator 03 — DEFENCE**
+- Monitors our services.
+- Reviews alerts.
+- Investigates service failures.
+- Applies approved defensive fixes.
+- Verifies recovery.
+
+**Operator 04 — INTELLIGENCE**
+- Reviews logs and forensic evidence.
+- Monitors flag submissions.
+- Maintains challenge notes.
+- Tracks competition events.
+- Supports incident analysis.
+
+All roles must be configurable.
+
+Provide a large-screen WAR ROOM mode suitable for displaying on a shared monitor or projector.
+
+---
+
+# 10. INTIMIDATING PUBLIC-FACING PRESENCE
+
+Create a theatrical visual identity for our own dashboard, approved team display, and honeypot.
+
+The goal is to make the platform feel like an advanced cyber command centre.
+
+Do not write to other teams' terminals, desktops, shells, or machines.
+
+Do not create a remote banner injector or unauthorized calling-card deployment tool.
+
+Instead, create three experiences:
+
+### A. OUR WAR ROOM
+
+A large, cinematic public-facing display that can be shown on our own monitor.
+
+Suggested text:
+
+`WE ARE ONLINE.`
+
+`WE ARE WATCHING OUR NETWORK.`
+
+`WE ARE PROTECTING OUR SERVICES.`
+
+`EVERY PACKET TELLS A STORY.`
+
+### B. THE ECHO CHAMBER
+
+A fictional terminal simulation accessible only through our own honeypot or local demonstration environment.
+
+It can display creepy fictional text such as:
+
+`ACCESS RECORDED.`
+
+`THE MACHINE REMEMBERS.`
+
+`YOU HAVE ENTERED THE ECHO CHAMBER.`
+
+`THIS SESSION IS A SIMULATION.`
+
+The simulation must not falsely claim that it has compromised a visitor's computer, identified a person, or obtained their credentials.
+
+### C. THE TEAM DISPLAY
+
+A room-facing display showing:
+- Four operator panels.
+- Live competition timer.
+- Verified service health.
+- Verified flag-submission progress.
+- Current incidents.
+- Live network visualization.
+- The project title and tagline.
+
+Only display data that the platform has actually collected.
+
+---
+
+# 11. ICON AND EMOJI LANGUAGE
+
+Use a consistent icon vocabulary.
+
+| Symbol | Meaning |
+|---|---|
+| ☠ | Project identity / critical system |
+| 💀 | Threat event |
+| 👁 | Monitoring |
+| 🧿 | Observation |
+| 🕷 | Honeypot |
+| 🕸 | Network intelligence |
+| 🩸 | Critical incident |
+| ⚠️ | Warning |
+| 🚨 | Emergency |
+| 🔒 | Protected |
+| 🔓 | Authorized access verified |
+| 👾 | Unknown activity |
+| 👹 | Honeypot persona |
+| 🧠 | AI intelligence |
+| 🛰️ | Network monitoring |
+| 📡 | Telemetry |
+| 🧬 | Forensic analysis |
+| 🧪 | Sandbox / testing |
+| ⚡ | Active operation |
+| 🛡️ | Defence |
+| 🎯 | Authorized target |
+| 🕶️ | Intelligence |
+| 🧨 | Simulated threat |
+| 🦠 | Malware-related alert |
+| 🔥 | Critical system event |
+
+Use icons consistently, not randomly.
+
+Use text labels alongside icons so the system remains accessible.
+
+---
+
+# 12. SOUND DESIGN
+
+Add optional sound effects.
+
+Possible sounds:
+- Startup rumble.
+- Radio static.
+- Radar ping.
+- Mechanical confirmation click.
+- Flag accepted sound.
+- Warning tone.
+- Emergency alert.
+- Heartbeat ambience.
+- Glitch transition.
+- Atmospheric background.
+
+Requirements:
+- Sound disabled or low-volume by default.
+- Mute button always visible.
+- Independent volume control.
+- No continuous loud audio.
+- No sound that interferes with the competition room.
+
+Use original or properly licensed sounds.
+
+---
+
+# 13. AUTOMATION AND PERSISTENCE
+
+The platform must continue running even if Claude Code closes.
 
 Implement:
 
-```bash
-python3 tools/verify_kit.py
-```
+- Persistent daemon.
+- Process supervision.
+- Process lock.
+- Heartbeat.
+- Graceful shutdown.
+- Worker supervision.
+- Persistent job queue.
+- Retry handling.
+- Health checks.
+- Crash recovery.
+- Structured logs.
+- Configuration validation.
 
-The verifier must check:
+The scheduler should prioritize:
+1. Emergency safety conditions.
+2. Flag submission.
+3. Defensive monitoring.
+4. Incident response.
+5. Honeypot monitoring.
+6. Approved reconnaissance.
+7. Intelligence analysis.
+8. Reporting.
 
-1. Required project files exist.
-2. Configuration is valid.
-3. Required placeholders are resolved for the selected operation.
-4. Scope file exists and parses.
-5. Database initializes.
-6. Backend starts.
-7. Dashboard builds.
-8. Terminal commands load.
-9. Daemon starts and reports healthy.
-10. Submission mock tests pass.
-11. Honeypot isolation tests pass.
-12. Emergency stop tests pass.
-13. Unit tests pass.
-14. Integration tests pass.
+Intervals must be configurable and comply with competition limits.
 
-Output:
-
-```text
-=============================================
-☠ We THOUGHT THIS WAS WORLD WAR 3 ☠
-=============================================
-
-[PASS] Configuration
-[PASS] Scope validation
-[PASS] Database
-[PASS] Backend
-[PASS] Dashboard build
-[PASS] Terminal
-[PASS] Daemon
-[PASS] Flag pipeline
-[PASS] Defence engine
-[PASS] Honeypot isolation
-[PASS] Emergency stop
-[PASS] Unit tests
-[PASS] Integration tests
-
-SYSTEM VERIFICATION: KIT OK
-```
-
-If a critical test fails:
-
-```text
-SYSTEM VERIFICATION: KIT FAIL
-```
-
-Do not enter Phase 1.
+Do not create uncontrolled scanning loops or unlimited worker spawning.
 
 ---
 
-# 17. INSTALLATION AND DEPLOYMENT
+# 14. CONFIGURATION AND SECRETS
 
-Create a one-command setup process.
+Create a clean configuration system.
 
-Provide:
+Use:
+- `.env.example`
+- Local `.env`
+- Configuration validation.
+- Secrets redaction.
+- File permissions.
+- Clear setup instructions.
 
-```bash
-./install.sh
-```
+Never commit real credentials, API tokens, passwords, VPN keys, or private competition information.
 
-It must:
+Never print secrets in the dashboard or logs.
 
-- Check dependencies.
-- Create a Python virtual environment.
-- Install Python dependencies.
-- Install frontend dependencies.
-- Build the dashboard.
-- Initialize the database.
-- Create required folders.
-- Generate `.env.example`.
-- Generate example configuration.
-- Create systemd service files where supported.
-- Run verification.
+The user will provide the official competition credentials and API documentation locally.
 
-Provide:
+Do not guess API endpoints or request formats.
 
-```bash
-./start.sh
-./stop.sh
-./verify.sh
-./cleanup.sh
-```
+---
 
-Create a comprehensive README.
+# 15. TERMINAL COMMAND CENTRE
 
-The README must include:
+Create a professional interactive terminal interface.
 
-- Project overview.
-- Architecture.
-- Requirements.
-- Installation.
-- Configuration.
-- Competition setup.
-- Scope configuration.
-- API integration.
-- Starting the framework.
-- Dashboard access.
-- Terminal commands.
-- Troubleshooting.
+The startup banner must show the exact project name:
+
+`We THOUGHT THIS WAS WORLD WAR 3`
+
+Include:
+- ASCII skull artwork.
+- Red and cyan terminal accents.
+- Live system status.
+- Competition timer.
+- Daemon heartbeat.
+- Service health.
+- Active incidents.
+- Submission queue.
+- Operator status.
+
+Provide intuitive commands, for example:
+
+- `ww3 status`
+- `ww3 dashboard`
+- `ww3 warroom`
+- `ww3 scope show`
+- `ww3 scope validate`
+- `ww3 monitor status`
+- `ww3 defence status`
+- `ww3 flags queue`
+- `ww3 flags status`
+- `ww3 incidents`
+- `ww3 ghost status`
+- `ww3 overseer brief`
+- `ww3 echo status`
+- `ww3 report`
+- `ww3 emergency-stop`
+- `ww3 resume`
+
+Commands must map to real implemented functionality.
+
+Do not display fake results.
+
+The emergency-stop command must be immediately available and must work even if the dashboard is unavailable.
+
+---
+
+# 16. PERFORMANCE AND RELIABILITY
+
+The system must be efficient on modest hardware.
+
+Requirements:
+- Avoid unnecessary animation loops.
+- Use WebSocket updates instead of excessive polling.
+- Limit chart refresh rates.
+- Use asynchronous operations carefully.
+- Implement bounded queues.
+- Limit concurrent tasks.
+- Avoid memory leaks.
+- Provide reduced-effects mode.
+- Monitor CPU, RAM, and disk usage.
+- Keep critical monitoring independent of visual rendering.
+
+The frontend must never be responsible for keeping the backend alive.
+
+---
+
+# 17. TESTING AND VERIFICATION
+
+Build tests for every major module.
+
+At minimum, test:
+
+- Scope validation.
+- CIDR parsing.
+- Out-of-scope rejection.
+- Safety enforcement.
 - Emergency stop.
-- Security considerations.
+- Daemon recovery.
+- Database persistence.
+- Flag format validation.
+- Duplicate flag handling.
+- Mock flag API responses.
+- Accepted/rejected submission handling.
+- Rate limiting.
+- Honeypot command simulation.
+- Honeypot isolation.
+- No credential collection.
+- No arbitrary shell execution.
+- Incident creation.
+- Incident resolution.
+- Service-health checks.
+- Configuration validation.
+- Secrets redaction.
+- WebSocket reconnection.
+- Frontend performance mode.
 
-Do not include actual credentials.
+Use a mock competition API for tests.
 
----
-
-# 18. FIRST-RUN PROCEDURE
-
-When I first run the project:
-
-1. Read this specification completely.
-2. Inspect the project directory.
-3. Inspect the existing `CLAUDE.md`.
-4. Inspect existing assets and code.
-5. Identify missing configuration.
-6. Build Phase 0.
-7. Run unit tests.
-8. Run integration tests.
-9. Run safety tests.
-10. Run the complete verifier.
-11. Show me the verification report.
-12. Explain any unresolved configuration requirements.
-13. Do not start competition operations until I explicitly authorize the transition.
-
-If competition credentials, scope, or API documentation are missing, do not invent them.
-
-Build everything that can be safely built without those details.
-
-Use mock services for development and testing.
-
-Do not confuse a successful local test with successful competition connectivity.
+Never test against real competition targets unless the user explicitly configures an authorized test environment.
 
 ---
 
-# 19. PHASE 1 — COMPETITION OPERATIONS
+# 18. DOCUMENTATION
 
-Only enter Phase 1 after:
+Create and maintain:
 
-- Phase 0 passes.
-- Scope is configured.
-- Competition rules are reviewed.
-- Official API configuration is verified.
-- I authorize competition operations.
+- `README.md`
+- `ARCHITECTURE.md`
+- `INSTALLATION.md`
+- `CONFIGURATION.md`
+- `COMPETITION_SETUP.md`
+- `SAFETY.md`
+- `OPERATIONS.md`
+- `TERMINAL_COMMANDS.md`
+- `TROUBLESHOOTING.md`
+- `API_INTEGRATION.md`
+- `TESTING.md`
+- `CHANGELOG.md`
 
-On startup:
+Explain how to install, configure, run, stop, test, recover, and operate the platform.
 
-```text
-☠ We THOUGHT THIS WAS WORLD WAR 3 ☠
-
-C2 INITIALIZATION
-
-[+] Loading configuration
-[+] Verifying competition scope
-[+] Connecting to competition VPN
-[+] Initializing database
-[+] Starting event engine
-[+] Starting defence monitoring
-[+] Starting flag submission worker
-[+] Starting intelligence engine
-[+] Starting honeypot
-[+] Starting dashboard
-[+] Starting terminal command centre
-
-SYSTEM STATUS: OPERATIONAL
-```
-
-Do not print successful status messages unless the underlying checks really passed.
-
-## 19.1 Continuous operation
-
-Continue operating until:
-
-- I say `STOP`.
-- I say `GAME OVER`.
-- The scoreboard officially finalizes.
-- A critical safety condition requires suspension.
-
-The framework must not rely on Claude Code staying open.
-
-## 19.2 Priority scheduling
-
-At all times:
-
-**Priority 1 — Flag submission**
-
-Process genuine validated flags as quickly as possible.
-
-**Priority 2 — Defence**
-
-Ensure our assigned services are healthy.
-
-**Priority 3 — Incident response**
-
-Investigate and handle security events.
-
-**Priority 4 — Honeypot intelligence**
-
-Collect and classify activity.
-
-**Priority 5 — Authorized reconnaissance**
-
-Perform allowed, rate-limited competition reconnaissance.
-
-**Priority 6 — Intelligence enrichment**
-
-Correlate findings and produce operational summaries.
-
-## 19.3 Tick status
-
-At each competition tick, print a one-line status.
-
-Example:
-
-```text
-t42 · services 3/3 ✓ · flags 7/8 accepted · pending 0 · findings 4 · honeypot hits 12 · incidents 0
-```
-
-Do not count a rejected or pending flag as accepted.
+Document all assumptions about the competition API and rules.
 
 ---
 
-# 20. PERFORMANCE TARGETS
+# 19. IMPLEMENTATION PHASES
 
-Track these metrics:
+Do not try to build everything in one unverified operation.
 
-| Metric | Target |
-|---|---|
-| Genuine captured flags submitted | At least 90% |
-| Capture-to-submit time | Under 10 seconds where API permits |
-| Our assigned services | 100% uptime target |
-| Daemon availability | Continuous |
-| Out-of-scope operations | Zero |
-| Unauthorized modifications | Zero |
-| Unapproved disruptive operations | Zero |
-| Flag duplication | Prevented |
-| False accepted submissions | Zero |
-| Honeypot password collection | Zero |
-| Real credentials in honeypot | Zero |
-| Event history loss | Zero |
+## PHASE 0 — AUDIT AND FOUNDATION
 
-Display these metrics in the dashboard.
+- Inspect existing files.
+- Audit the project.
+- Validate the architecture.
+- Create configuration and scope engine.
+- Create database.
+- Create logging and event history.
+- Create safety controls.
+- Create test framework.
 
----
+## PHASE 1 — CORE OPERATIONS
 
-# 21. IMPLEMENTATION RULES FOR CLAUDE CODE
+- Build the daemon.
+- Build the scheduler.
+- Build monitoring.
+- Build flag pipeline.
+- Build official API adapter.
+- Build incident response.
+- Build terminal commands.
 
-These are your software development instructions.
+## PHASE 2 — INTELLIGENCE
 
-1. Do not simply generate a project plan. Build the actual application.
-2. Inspect existing files before modifying them.
-3. Implement one module at a time.
-4. Keep modules functional and testable.
-5. Use real integrations when configured.
-6. Use mocks when external configuration is unavailable.
-7. Never fake production data.
-8. Never claim a feature is complete if it is only a placeholder.
-9. Never leave important modules as empty stubs.
-10. Add tests for every important function.
-11. Handle exceptions properly.
-12. Avoid unnecessary dependencies.
-13. Keep the UI responsive.
-14. Keep the backend asynchronous where appropriate.
-15. Prevent duplicate daemon instances.
-16. Protect secrets.
-17. Maintain complete audit logs.
-18. Do not silently ignore errors.
-19. Do not disable safety controls to make a test pass.
-20. Do not start competition operations without authorization.
+- Build THE OVERSEER.
+- Build GHOST PROTOCOL.
+- Build THE WATCHTOWER.
+- Build THE AUTOPSY.
+- Build THE BLACK BOX.
+- Build THE GRAVEYARD.
+- Build AFTER ACTION.
 
-When a task is too large to complete in one development session:
+## PHASE 3 — HONEYPOT
 
-- Break it into implementation phases.
-- Complete the current phase properly.
-- Test the completed work.
-- Update the project documentation.
-- Record outstanding work.
-- Continue from the documented state.
+- Build THE ECHO CHAMBER.
+- Implement the simulated shell.
+- Isolate the environment.
+- Verify no credential collection.
+- Verify no arbitrary command execution.
+- Verify permitted network exposure only.
 
-Do not pretend unfinished work is complete.
+## PHASE 4 — WAR ROOM INTERFACE
 
----
+- Build THE WAR ROOM.
+- Build the four-operator view.
+- Build live network visualization.
+- Build incident and flag panels.
+- Build the large-screen team display.
 
-# 22. REQUIRED DEVELOPMENT DELIVERABLES
+## PHASE 5 — VISUAL EXPERIENCE
 
-At the end of Phase 0, I expect a working project containing:
+- Implement the full colour system.
+- Implement HUD effects.
+- Implement NIGHTMARE MODE.
+- Implement SILENT WATCH.
+- Implement PERFORMANCE MODE.
+- Implement sound settings.
 
-1. Complete Python backend.
-2. Complete web dashboard.
-3. Complete terminal command centre.
-4. Central orchestrator.
-5. Independent background daemon.
-6. Competition scope engine.
-7. Attack operations modules.
-8. Defence monitoring modules.
-9. Network intelligence module.
-10. Genuine flag validation and submission pipeline.
-11. Honeypot system.
-12. Original Sesotho terminal banner.
-13. Original Sesotho web banner.
-14. Database and event ledger.
-15. Alert and escalation system.
-16. Emergency cleanup.
-17. Installation scripts.
-18. Configuration wizard.
-19. Documentation.
-20. Unit tests.
-21. Integration tests.
-22. Safety tests.
-23. Verification tool.
-24. System service configuration.
+## PHASE 6 — INTEGRATION AND VERIFICATION
 
-The final project must be operational, modular, secure, and maintainable.
+- Run all tests.
+- Verify safety controls.
+- Verify daemon persistence.
+- Verify database recovery.
+- Verify frontend/backend communication.
+- Verify mock API integration.
+- Fix all failures.
+- Produce a final readiness report.
+
+## PHASE 7 — COMPETITION OPERATION
+
+Only after the operator supplies and verifies the official rules, scope, credentials, and API documentation:
+
+- Validate configuration.
+- Confirm all targets are authorized.
+- Run pre-competition checks.
+- Start the daemon.
+- Monitor continuously.
+- Respect the competition end condition.
+- Stop safely when the competition ends or the operator requests it.
 
 ---
 
-# 23. FINAL INSTRUCTION
+# 20. FINAL ACCEPTANCE CRITERIA
 
-You are building:
+Do not claim the project is complete until:
 
-# We THOUGHT THIS WAS WORLD WAR 3
+1. The backend starts successfully.
+2. The frontend starts successfully.
+3. The terminal interface works.
+4. The daemon runs independently.
+5. The database persists events.
+6. Scope checks reject unauthorized destinations.
+7. The emergency stop works.
+8. The official API adapter is based on supplied documentation.
+9. Mock submission tests pass.
+10. Only explicitly confirmed submissions show as accepted.
+11. The honeypot is isolated and simulated safely.
+12. The four-person team interface works.
+13. The WAR ROOM displays real application data.
+14. Visual modes work.
+15. Performance mode works.
+16. Documentation is complete.
+17. Tests pass.
+18. No secrets are committed.
+19. No unauthorized remote terminal or calling-card functionality exists.
+20. All project branding uses the exact title:
 
-This is not supposed to be a simple port scanner, a basic dashboard, or a collection of scripts.
+**We THOUGHT THIS WAS WORLD WAR 3**
 
-It is a complete centralized Attack & Defence CTF operations platform.
+---
 
-The central machine must provide one place to monitor our infrastructure, coordinate authorized competition activities, process flags, investigate attacks, observe honeypot activity, and maintain operational awareness.
+# 21. HOW YOU MUST WORK AS CLAUDE CODE
 
-The web dashboard and terminal command centre must feel like two interfaces to the same advanced cyber operations system.
+Work like an engineer responsible for a real competition system.
 
-Build it with a strong engineering foundation.
+- Inspect before modifying.
+- Plan before implementing.
+- Build incrementally.
+- Test every module.
+- Never silently ignore errors.
+- Never invent successful results.
+- Never invent competition rules or API details.
+- Never remove working functionality without a reason.
+- Never expose credentials.
+- Never cross configured scope.
+- Never hide uncertainty.
+- Never leave critical safety checks as TODOs.
+- Never claim a feature works before testing it.
 
-Prioritize reliability, automation, visibility, speed, security, and operational correctness.
+After each phase, provide:
+- Files created.
+- Files modified.
+- Features completed.
+- Tests executed.
+- Test results.
+- Remaining issues.
+- Next implementation step.
 
-**Do not stop at designing the architecture. Inspect the repository, implement the system, test it, verify it, document it, and show me the working result.**
+If a feature cannot be safely implemented, explain why and provide a safe alternative.
 
-First action: inspect the existing project and `CLAUDE.md`, then report the current state and begin Phase 0 implementation.
+**Do not stop after producing a plan or attractive mockup. Build the actual working application, test it, document it, and verify it.**
 
-**WE THOUGHT THIS WAS WORLD WAR 3.**
+# FINAL DIRECTIVE
+
+Build a system that looks like a futuristic intelligence agency's cyber operations centre, operates like a disciplined security engineering platform, and helps four team members coordinate under competition pressure.
+
+Make it visually unforgettable.
+
+Make it operationally reliable.
+
+Make it fast.
+
+Make it intelligent.
+
+Make it terrifying in appearance—but controlled, evidence-driven, and competition-compliant in operation.
+
+# ☠ We THOUGHT THIS WAS WORLD WAR 3
+
+**SEE EVERYTHING. PROTECT EVERYTHING. MISS NOTHING.**
