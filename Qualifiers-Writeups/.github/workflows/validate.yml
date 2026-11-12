@@ -1,0 +1,114 @@
+name: Validate Repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Run validation script
+        run: python scripts/validate_repo.py
+
+      - name: Check flag format
+        run: |
+          # Check all flags have proper verification status
+          grep -r "LsCTF2026{" --include="*.md" . | \
+          grep -v "VERIFIED" | \
+          grep -v "UNVERIFIED" | \
+          grep -v "PARTIAL" | \
+          grep -v "LOCAL_ONLY" | \
+          grep -v "FLAG_INDEX.md" | \
+          grep -v "SCOREBOARD.md" | \
+          grep -v "CATEGORIES.md" | \
+          grep -v "QA_REPORT.md" | \
+          grep -v "CONTRIBUTING.md" | \
+          grep -v "README.md" | \
+          grep -v "# " | \
+          grep -v "```" && exit 1 || echo "All flags have verification status"
+
+      - name: Check for secrets
+        run: |
+          # Scan for potential secrets (excluding flags)
+          grep -r -i -E "(password|secret|token|apikey|api_key|private_key)" \
+          --include="*.py" --include="*.md" --include="*.txt" . | \
+          grep -v "FLAG" | \
+          grep -v "LsCTF2026" | \
+          grep -v "example" | \
+          grep -v "placeholder" | \
+          grep -v "YOUR_" | \
+          grep -v "your_" | \
+          grep -v "test_" | \
+          grep -v "dummy" | \
+          grep -v "# " && exit 1 || echo "No secrets found"
+
+      - name: Validate flag format
+        run: |
+          # Ensure all flags match LsCTF2026{} format
+          grep -ro "LsCTF2026{[^}]*}" --include="*.md" . | \
+          grep -vE "LsCTF2026\{[A-Za-z0-9_\-@#$%&*!]+\}" && exit 1 || echo "All flags valid format"
+
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t lsctf-finals:latest .
+          docker run --rm lsctf-finals:latest python -c "import pwntools, z3, Crypto, cryptography, fpylll, gmpy2, sympy, numpy, scipy, aiohttp, rich; print('All imports OK')"
+
+  deploy-pages:
+    name: Deploy GitHub Pages
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install MkDocs
+        run: pip install mkdocs-material mkdocs-mermaid2-plugin pymdown-extensions
+
+      - name: Build site
+        run: mkdocs build --strict
+
+      - name: Deploy to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
