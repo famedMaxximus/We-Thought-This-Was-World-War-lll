@@ -1,0 +1,172 @@
+site_name: "Lesotho 2026 Cyber Security Hackathon — Writeups"
+site_url: "https://yourusername.github.io/Lesotho-CTF-Writeups"
+repo_url: "https://github.com/yourusername/Lesotho-CTF-Writeups"
+repo_name: "Lesotho-CTF-Writeups"
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: pink
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: pink
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+    - toc.integrate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - admonition
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - mermaid2
+
+plugins:
+  - search
+  - mermaid2
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - git-authors:
+      exclude:
+        - "dependabot[bot]"
+        - "github-actions[bot]"
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/yourusername
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+  generator: false
+
+nav:
+  - Home: index.md
+  - Scoreboard: SCOREBOARD.md
+  - Flags: FLAG_INDEX.md
+  - Categories: CATEGORIES.md
+  - QA Report: QA_REPORT.md
+  - Finals Strategy: FINALS_STRATEGY.md
+  - Cryptography:
+      - Overview: Cryptography/README.md
+      - Squeamish Squash: Cryptography/Squeamish-Squash/README.md
+      - Macrodata Refinement: Cryptography/Macrodata-Refinement/README.md
+      - Same Shape Different Fence: Cryptography/Same-Shape-Different-Fence/README.md
+      - Verification Service: Cryptography/Verification-Service/README.md
+      - Ninety-Six Boxes: Cryptography/Ninety-Six-Boxes/README.md
+      - Mohale Sensor Traces: Cryptography/Mohale-Sensor-Traces/README.md
+      - Everything Almost: Cryptography/Everything-Almost/README.md
+      - Young Sheldow: Cryptography/Young-Sheldow/README.md
+      - Enkapune 1: Cryptography/Enkapune-1/README.md
+      - Enkapune 2: Cryptography/Enkapune-2/README.md
+      - Detention for the Curious: Cryptography/Detention-for-the-Curious/README.md
+      - Squeamish Squash: Cryptography/Squeamish-Squash/README.md
+      - Nine Six Boxes: Cryptography/Ninety-Six-Boxes/README.md
+      - Seven Locks One Lie: Cryptography/Seven-Locks-One-Lie/README.md
+      - A Signature From the Future: Cryptography/A-Signature-From-the-Future/README.md
+      - Nonce Upon a Time: Cryptography/Nonce-upon-a-Time/README.md
+      - The Secret Between the Lines: Cryptography/The-Secret-Between-the-Lines/README.md
+      - Vault-Tec Cold Storage: Cryptography/Vault-Tec-Cold-Storage/README.md
+      - Verification Service: Cryptography/Verification-Service/README.md
+      - Oil and Vinegar Never Mixed: Cryptography/Oil-and-Vinegar-Never-Mixed/README.md
+      - Rick's Portal Auth System: Cryptography/Ricks-Portal-Auth-System/README.md
+      - Ndigiwa: Cryptography/Ndigiwa/README.md
+      - Namunya Sacco: Cryptography/Namunya-Sacco/README.md
+      - Just Passw0rd: Cryptography/just_Passw0rd/README.md
+      - Recursive: Cryptography/recursive/README.md
+      - Gates: Cryptography/gates/README.md
+      - Wubba Lubba Dub Cipher: Cryptography/Wubba-Lubba-Dub-Cipher/README.md
+      - Everything Almost: Cryptography/Everything-Almost/README.md
+      - Mohale Sensor Traces: Cryptography/Mohale-Sensor-Traces/README.md
+      - Morija Gate Register: Cryptography/Morija-Gate-Register/README.md
+      - The Silent Partner: Cryptography/The-Silent-Partner/README.md
+      - Attachment Included: Cryptography/Attachment-Included/README.md
+  - Binary Exploitation:
+      - Overview: Binary-Exploitation/README.md
+      - Pwn Master Level 1: Binary-Exploitation/Pwn-Master-Level-1/README.md
+      - Pwn Master Level 2: Binary-Exploitation/Pwn-Master-Level-2/README.md
+      - Pwn Master Level 3: Binary-Exploitation/Pwn-Master-Level-3/README.md
+      - Pwn Master Level 4: Binary-Exploitation/Pwn-Master-Level-4/README.md
+      - Pwn Master Level 5: Binary-Exploitation/Pwn-Master-Level-5/README.md
+      - Pwn Master Level 6: Binary-Exploitation/Pwn-Master-Level-6/README.md
+      - Pwn Master Level 7: Binary-Exploitation/Pwn-Master-Level-7/README.md
+  - Reverse Engineering:
+      - Overview: Reverse-Engineering/README.md
+      - wintls: Reverse-Engineering/wintls/README.md
+      - Quiz: Reverse-Engineering/Quiz/README.md
+      - jump: Reverse-Engineering/jump/README.md
+      - sed programming: Reverse-Engineering/sed-programming/README.md
+  - Digital Forensics:
+      - Overview: Digital-Forensics/README.md
+      - The Smuggled Archive: Digital-Forensics/The-Smuggled-Archive/README.md
+      - Say Cheese: Digital-Forensics/Say-Cheese/README.md
+      - Phone Home: Digital-Forensics/Phone-Home/README.md
+      - Rocket Man: Digital-Forensics/Rocket-Man/README.md
+      - Homecoming: Digital-Forensics/Homecoming/README.md
+  - Web Exploitation:
+      - Overview: Web-Exploitation/README.md
+      - Web Exploitation Vault: Web-Exploitation/Web-Exploitation/README.md
+      - Ndigiwa: Web-Exploitation/Ndigiwa/README.md
+      - Detention for the Curious: Web-Exploitation/Detention-for-the-Curious/README.md
+  - Web3:
+      - Calldata Secret: Web3/Calldata-Secret/README.md
+  - ICS/OT Security:
+      - Operation Quthing Storm: ICS-OT-Security/Operation-Quthing-Storm/README.md
+  - Tools & Scripts:
+      - Flag Formatter: scripts/utils/flag_formatter.py
+      - Scoreboard Monitor: scripts/utils/scoreboard_monitor.py
+      - Flag Submitter: scripts/utils/flag_submitter.py
+      - Validation: scripts/validate_repo.py
+  - Finals Strategy: FINALS_STRATEGY.md
+  - QA Report: QA_REPORT.md
+  - Contributing: CONTRIBUTING.md
+  - License: LICENSE
+
+extra_css:
+  - stylesheets/extra.css
+
+copyright: |
+  &copy; 2026 Team <strong>We Thought This Was World War III</strong> —
+  Lesotho 2026 Cyber Security Hackathon
